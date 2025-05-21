@@ -1,0 +1,166 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String?
+  password  String
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  otp             String?          // For email verification or password reset
+  otpExpiresAt    DateTime?        // Expiry time for the OTP
+  otpType         OTPType?         // Type of OTP (e.g., REGISTRATION, PASSWORD_RESET)
+  isEmailVerified Boolean          @default(false)
+
+  createdPolls Poll[] @relation("UserPolls")
+  votes        Vote[] @relation("UserVotes")
+
+  createdPaymentRequests PaymentRequest[] @relation("UserCreatedPaymentRequests") // Payment requests created by this user
+  targetedPaymentRequests PaymentRequest[] @relation("UserTargetedPaymentRequests") // Payment requests targeted at this user
+  recordedPayments Payment[] @relation("UserRecordedPayments") // Payments recorded by this user
+
+  notifications Notification[] @relation("UserNotifications") // Notifications for this user
+
+  // Add relations to other models here if needed
+  // posts Post[]
+}
+
+// Enum for User Roles
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OTPType {
+  REGISTRATION
+  PASSWORD_RESET
+}
+
+model Poll {
+  id          Int          @id @default(autoincrement())
+  title       String
+  description String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  createdById Int
+  createdBy   User         @relation("UserPolls", fields: [createdById], references: [id])
+  options     PollOption[]
+  votes       Vote[]
+}
+
+model PollOption {
+  id     Int    @id @default(autoincrement())
+  text   String
+  pollId Int
+  poll   Poll   @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  votes  Vote[]
+}
+
+model Vote {
+  id           Int        @id @default(autoincrement())
+  userId       Int
+  user         User       @relation("UserVotes", fields: [userId], references: [id])
+  pollId       Int        // Added to easily query votes per poll and enforce one vote per user per poll
+  poll         Poll       @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  pollOptionId Int
+  pollOption   PollOption @relation(fields: [pollOptionId], references: [id], onDelete: Cascade)
+  createdAt    DateTime   @default(now())
+
+  @@unique([userId, pollId]) // Ensures a user can only vote once per poll
+}
+
+// --- Payment Related Models ---
+
+enum PaymentRequestStatus {
+  PENDING
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+model PaymentRequest {
+  id             Int                  @id @default(autoincrement())
+  description    String
+  amount         Float // Consider using Decimal for monetary values if precision is critical
+  dueDate        DateTime?
+  status         PaymentRequestStatus @default(PENDING)
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @updatedAt
+
+  createdById    Int // User who created the request (e.g., admin, staff)
+  createdBy      User                 @relation("UserCreatedPaymentRequests", fields: [createdById], references: [id])
+
+  targetUserId   Int // User who needs to make the payment
+  targetUser     User                 @relation("UserTargetedPaymentRequests", fields: [targetUserId], references: [id])
+
+  payments       Payment[]
+}
+
+model Payment {
+  id                Int      @id @default(autoincrement())
+  amountPaid        Float    // Consider using Decimal
+  paymentDate       DateTime @default(now())
+  paymentMethod     String?  // e.g., "Stripe", "Cash", "Bank Transfer"
+  transactionId     String?  @unique // Optional, for external payment processor IDs
+  notes             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  paymentRequestId  Int
+  paymentRequest    PaymentRequest @relation(fields: [paymentRequestId], references: [id])
+
+  recordedById      Int?      // User who recorded this payment (e.g., admin)
+  recordedBy        User?     @relation("UserRecordedPayments", fields: [recordedById], references: [id])
+}
+
+// --- Notification Models ---
+
+enum NotificationType {
+  GENERAL
+  POLL_NEW
+  POLL_VOTE_RECEIVED // For poll creators
+  PAYMENT_REQUEST_NEW
+  PAYMENT_REQUEST_DUE
+  PAYMENT_RECEIVED
+  PAYMENT_CONFIRMED   // For user who paid
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int      // The user who will receive this notification
+  user      User     @relation("UserNotifications", fields: [userId], references: [id])
+  message   String
+  isRead    Boolean  @default(false)
+  type      NotificationType? @default(GENERAL)
+  relatedEntityType String? // e.g., "Poll", "PaymentRequest", "Payment"
+  relatedEntityId   Int?      // ID of the Poll, PaymentRequest, etc.
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead]) // Index for querying user's unread notifications
+}
+
+// Example of a Post model (if you were to create a blog, for instance)
+// model Post {
+//   id        Int      @id @default(autoincrement())
+//   title     String
+//   content   String?
+//   published Boolean  @default(false)
+//   author    User     @relation(fields: [authorId], references: [id])
+//   authorId  Int
+//   createdAt DateTime @default(now())
+// }

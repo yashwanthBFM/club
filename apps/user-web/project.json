@@ -1,0 +1,52 @@
+{
+  "name": "user-web",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/user-web",
+  "projectType": "application",
+  "tags": ["scope:user-web", "type:app"],
+  "// targets": "to see all targets run: nx show project user-web --web",
+  "targets": {
+    "build": {
+      "executor": "@nx/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "outputPath": "dist/apps/user-web"
+      },
+      "configurations": {
+        "development": {
+          "outputPath": "apps/user-web"
+        },
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/next:server",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "user-web:build",
+        "dev": true
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "user-web:build:development",
+          "dev": true
+        },
+        "production": {
+          "buildTarget": "user-web:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nx/next:export",
+      "options": {
+        "buildTarget": "user-web:build:production"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}

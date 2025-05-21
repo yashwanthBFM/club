@@ -1,0 +1,337 @@
+/* Basic Reset removed - moved to global.css */
+/* body styles removed - moved to global.css */
+
+.container {
+  width: 100%;
+  margin: auto;
+  overflow: hidden;
+}
+
+/* Header & Navigation */
+.header {
+  background: #004d00; /* Dark Green for Texas Theme */
+  color: #fff;
+  padding: 1rem 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 1.5rem;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.nav a:hover {
+  color: #ffd700; /* Gold accent for hover */
+}
+
+/* Hero Section */
+.parallaxContainer {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.heroSection {
+  height: 100vh;
+  background-image: url('/images/football-field.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+}
+
+.heroSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  padding: 0 20px;
+}
+
+.heroTitle {
+  font-size: 4rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.heroSubtitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* About Section */
+.aboutSection {
+  padding: 100px 20px;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+.aboutContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.aboutTitle {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+
+.featuresGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.featureCard {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-5px);
+}
+
+.featureTitle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.featureDescription {
+  color: #666;
+  line-height: 1.6;
+}
+
+/* Events Section */
+.eventsSection {
+  padding: 100px 20px;
+  background-image: url('/images/stadium.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  color: white;
+}
+
+.eventsSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
+}
+
+.eventsContent {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.eventsTitle {
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.eventsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 3rem;
+}
+
+.eventCard {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+.eventCard:hover {
+  transform: translateY(-5px);
+}
+
+.eventTitle {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.eventDate {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+  color: #ffd700;
+}
+
+.eventDescription {
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+/* Join Section */
+.joinSection {
+  padding: 100px 20px;
+  background-color: #1a1a1a;
+  color: white;
+  text-align: center;
+}
+
+.joinContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.joinTitle {
+  font-size: 2.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.joinDescription {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+/* Buttons */
+.button {
+  display: inline-block;
+  padding: 1rem 2rem;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+  margin: 0.5rem;
+}
+
+.primaryButton {
+  background-color: #ff4d4d;
+  color: white;
+}
+
+.primaryButton:hover {
+  background-color: #ff3333;
+  transform: translateY(-2px);
+}
+
+.secondaryButton {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.secondaryButton:hover {
+  background-color: white;
+  color: #1a1a1a;
+  transform: translateY(-2px);
+}
+
+/* Footer */
+.footer {
+  background: #333;
+  color: #fff;
+  text-align: center;
+  padding: 2rem 0;
+  font-size: 0.9rem;
+}
+
+.socialLinks a {
+  color: #fff;
+  text-decoration: none;
+  margin: 0 0.75rem;
+  font-size: 1.2rem;
+}
+
+.socialLinks a:hover {
+  color: #ffd700; /* Gold accent for hover */
+}
+
+/* Responsive adjustments (basic example) */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    padding: 1rem;
+  }
+
+  .nav {
+    margin-top: 1rem;
+  }
+
+  .nav a {
+    margin: 0 0.5rem;
+    display: block;
+    text-align: center;
+    padding: 0.5rem 0;
+  }
+
+  .heroTitle {
+    font-size: 2.5rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1.2rem;
+  }
+
+  .aboutTitle,
+  .eventsTitle,
+  .joinTitle {
+    font-size: 2rem;
+  }
+
+  .featuresGrid,
+  .eventsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .button {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  .mainContent {
+    padding: 2rem 3%;
+  }
+}

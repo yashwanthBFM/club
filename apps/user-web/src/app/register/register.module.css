@@ -1,0 +1,105 @@
+.registerContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: #f0f2f5; /* Light gray background */
+  padding: 20px;
+}
+
+.registerBox {
+  background: #fff;
+  padding: 2.5rem 3rem;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 480px; /* Slightly wider for more fields */
+  text-align: center;
+}
+
+.title {
+  font-size: 2rem;
+  color: #004d00; /* Dark Green for Texas Theme */
+  margin-bottom: 1.5rem;
+}
+
+.registerForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputGroup {
+  margin-bottom: 1.2rem; /* Slightly less margin for more fields */
+  text-align: left;
+}
+
+.inputGroup label {
+  display: block;
+  font-size: 0.9rem;
+  color: #555;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.inputGroup input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+}
+
+.inputGroup input:focus {
+  border-color: #004d00; /* Dark Green */
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 77, 0, 0.1);
+}
+
+.registerButton {
+  background: #c8102e; /* Texas Red */
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  text-transform: uppercase;
+  margin-top: 0.5rem; /* Added margin top */
+}
+
+.registerButton:hover {
+  background: #a00d23; /* Darker Texas Red */
+}
+
+.loginText {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.loginText a {
+  color: #004d00; /* Dark Green */
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.loginText a:hover {
+  text-decoration: underline;
+}
+
+.homeLink {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+.homeLink a {
+  color: #777;
+  text-decoration: none;
+}
+
+.homeLink a:hover {
+  text-decoration: underline;
+} 
