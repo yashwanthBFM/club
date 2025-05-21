@@ -23,7 +23,10 @@ This monorepo contains the codebase for the Football Club website, including:
     ```bash
     npm install
     ```
-
+## Initialize DB
+```bash
+  cd apps/api && npx prisma generate
+```
 ## Development
 
 To run the applications in development mode:
