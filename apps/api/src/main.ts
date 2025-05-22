@@ -7,6 +7,7 @@ import { authenticateToken, AuthenticatedRequest, authorizeRole } from './authMi
 import { createNotification } from './notificationService'; // Import notification service
 import { generateOTP, getOTPExpiry, sendOTPEmail, verifyOTP, clearOTP } from './services/otpService'; // Import OTP utilities
 import cors from 'cors';
+import { createGame, registerForGame, updateGameStatus } from './gameService';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'your-very-secure-secret-key'; // Store in .env
 const SALT_ROUNDS = 10;
@@ -912,6 +913,221 @@ app.get('/auth/user-details', authenticateToken, async (req: Request, res: Respo
   } catch (error) {
     console.error('Get user details error:', error);
     res.status(500).json({ error: 'Could not retrieve user details.' });
+  }
+});
+
+// --- Announcements API Endpoints ---
+
+// Create Announcement (Admin only)
+app.post('/announcements', authenticateToken, authorizeRole('ADMIN'), async (req: Request, res: Response) => {
+  const authenticatedReq = req as AuthenticatedRequest;
+  const { title, content } = authenticatedReq.body;
+  const createdById = authenticatedReq.user?.userId;
+
+  if (!title || !content || !createdById) {
+    return res.status(400).json({ error: 'Title, content, and creator ID are required.' });
+  }
+
+  try {
+    const announcement = await prisma.announcement.create({
+      data: {
+        title,
+        content,
+        createdById,
+      },
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    // Notify all users about new announcement
+    const allUsers = await prisma.user.findMany({
+      select: { id: true },
+    });
+
+    for (const user of allUsers) {
+      await createNotification({
+        userId: user.id,
+        message: `New announcement: ${announcement.title}`,
+        type: 'GENERAL',
+        relatedEntityType: 'Announcement',
+        relatedEntityId: announcement.id,
+      });
+    }
+
+    res.status(201).json(announcement);
+  } catch (error) {
+    console.error("Create announcement error:", error);
+    res.status(500).json({ error: 'Could not create announcement.' });
+  }
+});
+
+// Get All Announcements
+app.get('/announcements', async (req: Request, res: Response) => {
+  try {
+    const announcements = await prisma.announcement.findMany({
+      where: { isActive: true },
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    res.json(announcements);
+  } catch (error) {
+    console.error("Get announcements error:", error);
+    res.status(500).json({ error: 'Could not retrieve announcements.' });
+  }
+});
+
+// --- Games API Endpoints ---
+
+// Create Game (Admin only)
+app.post('/games', authenticateToken, authorizeRole('ADMIN'), async (req: Request, res: Response) => {
+  const authenticatedReq = req as AuthenticatedRequest;
+  const { title, description, maxParticipants, startDate, endDate, location } = authenticatedReq.body;
+  const createdById = authenticatedReq.user?.userId;
+
+  if (!title || !description || !maxParticipants || !startDate || !endDate || !createdById) {
+    return res.status(400).json({ error: 'All fields are required except location.' });
+  }
+
+  try {
+    const game = await createGame({
+      title,
+      description,
+      maxParticipants: parseInt(maxParticipants),
+      startDate: new Date(startDate),
+      endDate: new Date(endDate),
+      location,
+      createdById,
+    });
+
+    // Notify all users about new game
+    const allUsers = await prisma.user.findMany({
+      select: { id: true },
+    });
+
+    for (const user of allUsers) {
+      await createNotification({
+        userId: user.id,
+        message: `New game available: ${game.title}`,
+        type: 'GENERAL',
+        relatedEntityType: 'Game',
+        relatedEntityId: game.id,
+      });
+    }
+
+    res.status(201).json(game);
+  } catch (error) {
+    console.error("Create game error:", error);
+    res.status(500).json({ error: 'Could not create game.' });
+  }
+});
+
+// Get All Games
+app.get('/games', async (req: Request, res: Response) => {
+  try {
+    const games = await prisma.game.findMany({
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        _count: {
+          select: { registrations: true },
+        },
+      },
+      orderBy: { startDate: 'asc' },
+    });
+    res.json(games);
+  } catch (error) {
+    console.error("Get games error:", error);
+    res.status(500).json({ error: 'Could not retrieve games.' });
+  }
+});
+
+// Register for Game
+app.post('/games/:id/register', authenticateToken, async (req: Request, res: Response) => {
+  const authenticatedReq = req as AuthenticatedRequest;
+  const gameId = parseInt(authenticatedReq.params.id);
+  const userId = authenticatedReq.user?.userId;
+
+  if (isNaN(gameId) || !userId) {
+    return res.status(400).json({ error: 'Invalid game ID or user ID.' });
+  }
+
+  try {
+    const registration = await registerForGame(gameId, userId);
+    res.status(201).json(registration);
+  } catch (error: any) {
+    console.error(`Register for game ${gameId} error:`, error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Update Game Status (Admin only)
+app.put('/games/:id/status', authenticateToken, authorizeRole('ADMIN'), async (req: Request, res: Response) => {
+  const authenticatedReq = req as AuthenticatedRequest;
+  const gameId = parseInt(authenticatedReq.params.id);
+  const { status } = authenticatedReq.body;
+
+  if (isNaN(gameId) || !status) {
+    return res.status(400).json({ error: 'Game ID and status are required.' });
+  }
+
+  const validStatuses = ['UPCOMING', 'ONGOING', 'COMPLETED', 'CANCELLED'];
+  if (!validStatuses.includes(status)) {
+    return res.status(400).json({ error: 'Invalid status.' });
+  }
+
+  try {
+    const game = await updateGameStatus(gameId, status as any);
+    res.json(game);
+  } catch (error: any) {
+    console.error(`Update game ${gameId} status error:`, error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Get Game Registrations (Admin only)
+app.get('/games/:id/registrations', authenticateToken, authorizeRole('ADMIN'), async (req: Request, res: Response) => {
+  const gameId = parseInt(req.params.id);
+
+  if (isNaN(gameId)) {
+    return res.status(400).json({ error: 'Invalid game ID.' });
+  }
+
+  try {
+    const registrations = await prisma.gameRegistration.findMany({
+      where: { gameId },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'asc' },
+    });
+    res.json(registrations);
+  } catch (error) {
+    console.error(`Get game ${gameId} registrations error:`, error);
+    res.status(500).json({ error: 'Could not retrieve game registrations.' });
   }
 });
 

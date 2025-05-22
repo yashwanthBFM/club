@@ -36,6 +36,11 @@ model User {
 
   notifications Notification[] @relation("UserNotifications") // Notifications for this user
 
+  // New relations for announcements and games
+  createdAnnouncements Announcement[] @relation("UserCreatedAnnouncements")
+  createdGames Game[] @relation("UserCreatedGames")
+  gameRegistrations GameRegistration[] @relation("UserGameRegistrations")
+
   // Add relations to other models here if needed
   // posts Post[]
 }
@@ -164,3 +169,60 @@ model Notification {
 //   authorId  Int
 //   createdAt DateTime @default(now())
 // }
+
+// New models for Announcements and Games
+model Announcement {
+  id          Int       @id @default(autoincrement())
+  title       String
+  content     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  createdById Int
+  createdBy   User      @relation("UserCreatedAnnouncements", fields: [createdById], references: [id])
+  isActive    Boolean   @default(true)
+}
+
+model Game {
+  id              Int       @id @default(autoincrement())
+  title           String
+  description     String
+  maxParticipants Int
+  startDate       DateTime
+  endDate         DateTime
+  location        String?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+  createdById     Int
+  createdBy       User      @relation("UserCreatedGames", fields: [createdById], references: [id])
+  status          GameStatus @default(UPCOMING)
+  registrations   GameRegistration[]
+
+  @@index([status, startDate])
+}
+
+model GameRegistration {
+  id        Int      @id @default(autoincrement())
+  gameId    Int
+  game      Game     @relation(fields: [gameId], references: [id])
+  userId    Int
+  user      User     @relation("UserGameRegistrations", fields: [userId], references: [id])
+  status    RegistrationStatus @default(REGISTERED)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([gameId, userId])
+}
+
+enum GameStatus {
+  UPCOMING
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+enum RegistrationStatus {
+  REGISTERED
+  CANCELLED
+  ATTENDED
+  NO_SHOW
+}

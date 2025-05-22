@@ -37,7 +37,7 @@ export default function LoginPage() {
       if (data.token) {
         localStorage.setItem('token', data.token);
         // Redirect to homepage or dashboard
-        router.push('/'); 
+        router.push('/dashboard'); 
       } else {
         setError('Login successful, but no token received.');
       }
