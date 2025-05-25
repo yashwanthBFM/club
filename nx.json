@@ -17,21 +17,93 @@
       "options": {
         "targetName": "e2e"
       }
+    },
+    {
+      "plugin": "@nx/jest/plugin",
+      "options": {
+        "targetName": "test"
+      }
     }
   ],
   "generators": {
     "@nx/next": {
       "application": {
-        "style": "css",
-        "linter": "none"
+        "style": "tailwind",
+        "linter": "eslint",
+        "unitTestRunner": "jest",
+        "e2eTestRunner": "none"
       }
     }
   },
   "targetDefaults": {
-    "@nx/esbuild:esbuild": {
-      "cache": true,
-      "dependsOn": ["^build"],
-      "inputs": ["default", "^default"]
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "inputs": [
+        "production",
+        "^production"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "cache": true
+    },
+    "test": {
+      "inputs": [
+        "default",
+        "^production",
+        "{workspaceRoot}/jest.preset.js"
+      ],
+      "cache": true
+    },
+    "lint": {
+      "inputs": [
+        "default",
+        "{workspaceRoot}/.eslintrc.json"
+      ],
+      "cache": true
+    },
+    "start": {
+      "cache": true
+    },
+    "clean": {
+      "cache": true
+    },
+    "format": {
+      "cache": true
+    },
+    "dev:admin": {
+      "cache": true
+    },
+    "build:admin": {
+      "cache": true
+    },
+    "lint:admin": {
+      "cache": true
+    },
+    "dev:web": {
+      "cache": true
+    },
+    "build:web": {
+      "cache": true
+    },
+    "lint:web": {
+      "cache": true
     }
+  },
+  "namedInputs": {
+    "default": [
+      "{projectRoot}/**/*",
+      "sharedGlobals"
+    ],
+    "production": [
+      "default",
+      "!{projectRoot}/**/?(*.)+(spec|test).[jt]s?(x)?(.snap)",
+      "!{projectRoot}/tsconfig.spec.json",
+      "!{projectRoot}/.eslintrc.json",
+      "!{projectRoot}/jest.config.[jt]s"
+    ],
+    "sharedGlobals": []
   }
 }

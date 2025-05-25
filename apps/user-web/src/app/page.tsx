@@ -2,8 +2,43 @@
 
 import Link from 'next/link';
 import styles from './page.module.css';
+import Announcements from './components/Announcements';
+import React, { useEffect, useState } from 'react';
+import { fetchGames } from './api';
+
+interface Game {
+  id: number;
+  title: string;
+  description: string;
+  maxParticipants: number;
+  startDate: string;
+  endDate: string;
+  location: string;
+}
 
 export default function HomePage() {
+  const [games, setGames] = useState<Game[]>([]);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+    const loadGames = async () => {
+      try {
+        const data = await fetchGames();
+        setGames(data);
+      } catch (error) {
+        console.error('Error loading games:', error);
+      }
+    };
+    loadGames();
+  }, []);
+
+  const handleRegister = (gameId: number) => {
+    // TODO: Implement registration logic (API call)
+    alert(`Registering for game with ID: ${gameId}`);
+  };
+
   return (
     <div className={styles.parallaxContainer}>
       {/* Hero Section */}
@@ -23,6 +58,9 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* Announcements Section */}
+      <Announcements />
 
       {/* About Section */}
       <section className={styles.aboutSection}>
@@ -101,6 +139,29 @@ export default function HomePage() {
           <Link href="/register" className={`${styles.button} ${styles.primaryButton}`}>
             Join Now
           </Link>
+        </div>
+      </section>
+
+      <section className={styles.gamesSection}>
+        <div className={styles.gamesContent}>
+          <h2 className={styles.gamesTitle}>Upcoming Games</h2>
+          <ul>
+            {games.map((game) => (
+              <li key={game.id} style={{ marginBottom: '2rem' }}>
+                <h3>{game.title}</h3>
+                <p>{game.description}</p>
+                <p>Max Participants: {game.maxParticipants}</p>
+                <p>Start Date: {new Date(game.startDate).toLocaleString()}</p>
+                <p>End Date: {new Date(game.endDate).toLocaleString()}</p>
+                <p>Location: {game.location}</p>
+                {isLoggedIn ? (
+                  <button onClick={() => handleRegister(game.id)}>Register</button>
+                ) : (
+                  <p>Please log in to register for this game.</p>
+                )}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
     </div>

@@ -11,22 +11,39 @@ export interface AuthenticatedRequest extends Request {
   };
 }
 
-export const authenticateToken = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+export const authenticateToken = (
+  req: AuthenticatedRequest,
+  res: Response,
+  next: NextFunction
+) => {
   const authHeader = req.headers['authorization'];
-  const token = authHeader && authHeader.split(' ')[1]; // Bearer TOKEN
+  const token = authHeader && authHeader.split(' ')[1];
 
-  if (token == null) {
-    return res.sendStatus(401); // Unauthorized if no token
+  if (!token) {
+    return res.status(401).json({ error: 'No token provided' });
   }
 
-  jwt.verify(token, JWT_SECRET, (err: any, user: any) => {
-    if (err) {
-      console.error('JWT verification error:', err);
-      return res.sendStatus(403); // Forbidden if token is invalid
-    }
-    req.user = user as { userId: number; email: string; role: string };
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET) as {
+      userId: number;
+      email: string;
+      role: string;
+    };
+    req.user = decoded;
     next();
-  });
+  } catch (error) {
+    if (error instanceof jwt.TokenExpiredError) {
+      return res.status(401).json({ 
+        error: 'Token expired',
+        code: 'TOKEN_EXPIRED',
+        expiredAt: error.expiredAt
+      });
+    }
+    return res.status(401).json({ 
+      error: 'Invalid token',
+      code: 'INVALID_TOKEN'
+    });
+  }
 };
 
 export const authorizeRole = (allowedRoles: string | string[]) => {

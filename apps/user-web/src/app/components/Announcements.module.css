@@ -1,0 +1,94 @@
+.announcementsSection {
+  padding: 4rem 2rem;
+  background-color: #f8f9fa;
+}
+
+.announcementsContent {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.announcementsTitle {
+  font-size: 2.5rem;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.announcementsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 1rem;
+}
+
+.announcementCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease-in-out;
+}
+
+.announcementCard:hover {
+  transform: translateY(-5px);
+}
+
+.announcementTitle {
+  font-size: 1.5rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.announcementContent {
+  color: #4a5568;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+
+.announcementMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #718096;
+  border-top: 1px solid #e2e8f0;
+  padding-top: 1rem;
+}
+
+.announcementDate {
+  color: #718096;
+}
+
+.announcementAuthor {
+  color: #4a5568;
+  font-weight: 500;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  color: #4a5568;
+  font-size: 1.1rem;
+}
+
+.error {
+  text-align: center;
+  padding: 2rem;
+  color: #e53e3e;
+  font-size: 1.1rem;
+  background-color: #fff5f5;
+  border-radius: 8px;
+  margin: 1rem;
+}
+
+.noAnnouncements {
+  text-align: center;
+  padding: 2rem;
+  color: #4a5568;
+  font-size: 1.1rem;
+  background-color: #f7fafc;
+  border-radius: 8px;
+  margin: 1rem;
+  border: 1px dashed #cbd5e0;
+} 

@@ -916,80 +916,6 @@ app.get('/auth/user-details', authenticateToken, async (req: Request, res: Respo
   }
 });
 
-// --- Announcements API Endpoints ---
-
-// Create Announcement (Admin only)
-app.post('/announcements', authenticateToken, authorizeRole('ADMIN'), async (req: Request, res: Response) => {
-  const authenticatedReq = req as AuthenticatedRequest;
-  const { title, content } = authenticatedReq.body;
-  const createdById = authenticatedReq.user?.userId;
-
-  if (!title || !content || !createdById) {
-    return res.status(400).json({ error: 'Title, content, and creator ID are required.' });
-  }
-
-  try {
-    const announcement = await prisma.announcement.create({
-      data: {
-        title,
-        content,
-        createdById,
-      },
-      include: {
-        createdBy: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        },
-      },
-    });
-
-    // Notify all users about new announcement
-    const allUsers = await prisma.user.findMany({
-      select: { id: true },
-    });
-
-    for (const user of allUsers) {
-      await createNotification({
-        userId: user.id,
-        message: `New announcement: ${announcement.title}`,
-        type: 'GENERAL',
-        relatedEntityType: 'Announcement',
-        relatedEntityId: announcement.id,
-      });
-    }
-
-    res.status(201).json(announcement);
-  } catch (error) {
-    console.error("Create announcement error:", error);
-    res.status(500).json({ error: 'Could not create announcement.' });
-  }
-});
-
-// Get All Announcements
-app.get('/announcements', async (req: Request, res: Response) => {
-  try {
-    const announcements = await prisma.announcement.findMany({
-      where: { isActive: true },
-      include: {
-        createdBy: {
-          select: {
-            id: true,
-            name: true,
-          },
-        },
-      },
-      orderBy: { createdAt: 'desc' },
-    });
-    res.json(announcements);
-  } catch (error) {
-    console.error("Get announcements error:", error);
-    res.status(500).json({ error: 'Could not retrieve announcements.' });
-  }
-});
-
 // --- Games API Endpoints ---
 
 // Create Game (Admin only)
@@ -1128,6 +1054,179 @@ app.get('/games/:id/registrations', authenticateToken, authorizeRole('ADMIN'), a
   } catch (error) {
     console.error(`Get game ${gameId} registrations error:`, error);
     res.status(500).json({ error: 'Could not retrieve game registrations.' });
+  }
+});
+
+// --- Announcements API Endpoints ---
+
+// Create Announcement (Admin only)
+app.post('/announcements', authenticateToken, authorizeRole('ADMIN'), async (req: Request, res: Response) => {
+  const authenticatedReq = req as AuthenticatedRequest;
+  const { title, content } = authenticatedReq.body;
+  const createdById = authenticatedReq.user?.userId;
+
+  if (!title || !content || !createdById) {
+    return res.status(400).json({ error: 'Title, content, and creator ID are required.' });
+  }
+
+  try {
+    console.log(Object.keys(prisma), 'Available Prisma models');
+    const announcement = await prisma.announcement.create({
+      data: {
+        title,
+        content,
+        createdById,
+      },
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+      },
+    });
+
+    // Notify all users about new announcement
+    const allUsers = await prisma.user.findMany({
+      select: { id: true },
+    });
+
+    for (const user of allUsers) {
+      await createNotification({
+        userId: user.id,
+        message: `New announcement: ${announcement.title}`,
+        type: 'GENERAL',
+        relatedEntityType: 'Announcement',
+        relatedEntityId: announcement.id,
+      });
+    }
+
+    res.status(201).json(announcement);
+  } catch (error) {
+    console.error("Create announcement error:", error);
+    console.error("Error details:", JSON.stringify(error, null, 2));
+    res.status(500).json({ error: 'Could not create announcement.' });
+  }
+});
+
+// Get All Announcements
+app.get('/announcements', async (req: Request, res: Response) => {
+  try {
+    const announcements = await prisma.announcement.findMany({
+      where: { isActive: true },
+      include: {
+        createdBy: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+    
+    return res.json({
+      announcements: announcements,
+      message: announcements.length === 0 ? 'No active announcements at the moment.' : undefined
+    });
+    
+  } catch (error) {
+    console.error("Get announcements error:", error);
+    res.status(500).json({ error: 'Could not retrieve announcements.' });
+  }
+});
+
+// Get all users with filters and sorting
+app.get('/users', authenticateToken, authorizeRole('ADMIN'), async (req: Request, res: Response) => {
+  const { search, role, status, sortBy, sortOrder } = req.query;
+  
+  try {
+    const where: any = {};
+    if (search) {
+      where.OR = [
+        { name: { contains: search as string, mode: 'insensitive' } },
+        { email: { contains: search as string, mode: 'insensitive' } },
+      ];
+    }
+    if (role && role !== 'ALL') {
+      where.role = role;
+    }
+    if (status && status !== 'ALL') {
+      where.status = status;
+    }
+
+    const orderBy: any = {};
+    if (sortBy) {
+      orderBy[sortBy as string] = sortOrder || 'asc';
+    } else {
+      orderBy.createdAt = 'desc';
+    }
+
+    const users = await prisma.user.findMany({
+      where,
+      orderBy,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    res.json(users);
+  } catch (error) {
+    console.error('Get users error:', error);
+    res.status(500).json({ error: 'Could not retrieve users.' });
+  }
+});
+
+// Update user status
+app.patch('/users/:id/status', authenticateToken, authorizeRole('ADMIN'), async (req: Request, res: Response) => {
+  const userId = parseInt(req.params.id);
+  const { status } = req.body;
+
+  if (isNaN(userId)) {
+    return res.status(400).json({ error: 'Invalid user ID.' });
+  }
+
+  const validStatuses = ['ACTIVE', 'INACTIVE', 'SUSPENDED'];
+  if (!validStatuses.includes(status)) {
+    return res.status(400).json({ error: 'Invalid status value.' });
+  }
+
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { id: userId },
+      data: { status },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    // Create notification for the user about status change
+    await createNotification({
+      userId: updatedUser.id,
+      message: `Your account status has been updated to ${status}`,
+      type: 'STATUS_CHANGE',
+      relatedEntityType: 'User',
+      relatedEntityId: updatedUser.id,
+    });
+
+    res.json(updatedUser);
+  } catch (error) {
+    console.error('Update user status error:', error);
+    res.status(500).json({ error: 'Could not update user status.' });
   }
 });
 

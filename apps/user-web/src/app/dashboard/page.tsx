@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import styles from './dashboard.module.css';
+import { fetchGames, registerForGame } from '../api';
 
 interface PollOption {
   id: number;
@@ -42,11 +43,32 @@ interface PaymentRequest {
   status: 'pending' | 'paid' | 'overdue';
 }
 
+interface Game {
+  id: number;
+  title: string;
+  description: string;
+  maxParticipants: number;
+  startDate: string;
+  endDate: string;
+  location: string;
+}
+
 export default function Dashboard() {
   const [polls, setPolls] = useState<Poll[]>([]);
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [paymentRequests, setPaymentRequests] = useState<PaymentRequest[]>([]);
   const [loading, setLoading] = useState(true);
+  const [games, setGames] = useState<Game[]>([]);
+  const [registeringGameId, setRegisteringGameId] = useState<number | null>(null);
+
+  const loadGames = async () => {
+    try {
+      const gamesData = await fetchGames();
+      setGames(gamesData);
+    } catch (error) {
+      console.error('Error loading games:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchDashboardData = async () => {
@@ -83,6 +105,9 @@ export default function Dashboard() {
         });
         const paymentsData = await paymentsResponse.json();
         setPaymentRequests(paymentsData);
+
+        // Fetch games
+        await loadGames();
 
         setLoading(false);
       } catch (error) {
@@ -138,6 +163,21 @@ export default function Dashboard() {
       }
     } catch (error) {
       console.error('Error processing payment:', error);
+    }
+  };
+
+  const handleRegister = async (gameId: number) => {
+    try {
+      setRegisteringGameId(gameId);
+      await registerForGame(gameId);
+      alert('Successfully registered for the game!');
+      // Refresh the games list to show updated registration status
+      await loadGames();
+    } catch (error) {
+      console.error('Error registering for game:', error);
+      alert('Failed to register for the game. Please try again.');
+    } finally {
+      setRegisteringGameId(null);
     }
   };
 
@@ -216,6 +256,30 @@ export default function Dashboard() {
                 {payment.status === 'overdue' && (
                   <p className={styles.status}>Overdue</p>
                 )}
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* Games Section */}
+        <section className={styles.section}>
+          <h2>Upcoming Games</h2>
+          <div className={styles.cards}>
+            {games.map((game) => (
+              <div key={game.id} className={styles.card}>
+                <h3>{game.title}</h3>
+                <p>{game.description}</p>
+                <p>Max Participants: {game.maxParticipants}</p>
+                <p>Start Date: {new Date(game.startDate).toLocaleString()}</p>
+                <p>End Date: {new Date(game.endDate).toLocaleString()}</p>
+                <p>Location: {game.location}</p>
+                <button
+                  onClick={() => handleRegister(game.id)}
+                  disabled={registeringGameId === game.id}
+                  className={styles.registerButton}
+                >
+                  {registeringGameId === game.id ? 'Registering...' : 'Register'}
+                </button>
               </div>
             ))}
           </div>
