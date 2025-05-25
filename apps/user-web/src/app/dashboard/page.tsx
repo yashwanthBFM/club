@@ -223,7 +223,7 @@ export default function Dashboard() {
         <section className={styles.section}>
           <h2>Notifications</h2>
           <div className={styles.cards}>
-            {notifications.map(notification => (
+            {notifications && notifications?.map(notification => (
               <div key={notification.id} className={`${styles.card} ${!notification.read ? styles.unread : ''}`}>
                 <h3>{notification.title}</h3>
                 <p>{notification.message}</p>
