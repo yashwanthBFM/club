@@ -3,7 +3,9 @@
 import { useState } from 'react';
 import styles from './login.module.css';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation'; // For redirection
+import { useRouter } from 'next/navigation';
+import api from '@/lib/api';
+import { env } from '@/config/env';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -18,32 +20,17 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      const response = await fetch('http://localhost:3000/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await api.post('/auth/login', { email, password });
+      const { token, user } = response.data;
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed. Please check your credentials.');
-      }
-
-      // Handle successful login
-      console.log('Login successful:', data);
-      if (data.token) {
-        localStorage.setItem('token', data.token);
-        // Redirect to homepage or dashboard
-        router.push('/dashboard'); 
+      if (token) {
+        localStorage.setItem(env.auth.tokenKey, token);
+        router.push('/dashboard');
       } else {
         setError('Login successful, but no token received.');
       }
-
     } catch (err: any) {
-      setError(err.message || 'An unexpected error occurred.');
+      setError(err.response?.data?.message || 'An unexpected error occurred.');
       console.error('Login error:', err);
     } finally {
       setLoading(false);
