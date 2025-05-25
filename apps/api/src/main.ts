@@ -8,16 +8,33 @@ import { createNotification } from './notificationService'; // Import notificati
 import { generateOTP, getOTPExpiry, sendOTPEmail, verifyOTP, clearOTP } from './services/otpService'; // Import OTP utilities
 import cors from 'cors';
 import { createGame, registerForGame, updateGameStatus } from './gameService';
+import dotenv from 'dotenv';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'your-very-secure-secret-key'; // Store in .env
+// Load environment variables based on NODE_ENV
+const envFile = process.env.NODE_ENV === 'production' ? '.env.prod' : '.env';
+dotenv.config({ path: envFile });
+
+// Environment variables with validation
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET environment variable is required');
+}
+
 const SALT_ROUNDS = 10;
-
 const host = process.env.HOST ?? 'localhost';
 const port = process.env.PORT ? Number(process.env.PORT) : 3000;
 
+// CORS configuration
+const corsOptions = {
+  origin: process.env.CORS_ORIGIN || '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
+
 const app = express();
 app.use(express.json()); // Middleware to parse JSON bodies
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.get('/', (req, res) => {
   res.send({ message: 'Hello API' });

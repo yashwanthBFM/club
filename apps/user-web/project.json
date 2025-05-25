@@ -1,7 +1,7 @@
 {
   "name": "user-web",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "sourceRoot": "apps/user-web",
+  "sourceRoot": "apps/user-web/src",
   "projectType": "application",
   "tags": ["scope:user-web", "type:app"],
   "// targets": "to see all targets run: nx show project user-web --web",
@@ -11,13 +11,24 @@
       "outputs": ["{options.outputPath}"],
       "defaultConfiguration": "production",
       "options": {
-        "outputPath": "dist/apps/user-web"
+        "outputPath": "dist/apps/user-web",
+        "buildLibsFromSource": true
       },
       "configurations": {
         "development": {
           "outputPath": "apps/user-web"
         },
-        "production": {}
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "apps/user-web/.env",
+              "with": "apps/user-web/.env.prod"
+            }
+          ]
+        }
       }
     },
     "serve": {
@@ -25,16 +36,19 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "user-web:build",
-        "dev": true
+        "dev": true,
+        "port": 4200
       },
       "configurations": {
         "development": {
           "buildTarget": "user-web:build:development",
-          "dev": true
+          "dev": true,
+          "port": 4200
         },
         "production": {
           "buildTarget": "user-web:build:production",
-          "dev": false
+          "dev": false,
+          "port": 4200
         }
       }
     },
@@ -47,6 +61,13 @@
     "lint": {
       "executor": "@nx/eslint:lint",
       "outputs": ["{options.outputFile}"]
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/user-web/jest.config.ts"
+      }
     }
   }
 }
