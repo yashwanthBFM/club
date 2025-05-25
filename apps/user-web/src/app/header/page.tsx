@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { env } from '@/config/env';
 import styles from './header.module.css';
 
 interface User {
@@ -14,7 +15,7 @@ export default function Header() {
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem(env.auth.tokenKey);
       if (token) {
         try {
           const response = await fetch('http://localhost:3000/auth/user-details', {
@@ -38,7 +39,7 @@ export default function Header() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem(env.auth.tokenKey);
     setUser(null);
   };
 

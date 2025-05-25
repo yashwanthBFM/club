@@ -4,6 +4,7 @@ import Link from 'next/link';
 import styles from './page.module.css';
 import Announcements from './components/Announcements';
 import React, { useEffect, useState } from 'react';
+import { env } from '@/config/env';
 import { fetchGames } from './api';
 
 interface Game {
@@ -21,7 +22,7 @@ export default function HomePage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(env.auth.tokenKey);
     setIsLoggedIn(!!token);
     const loadGames = async () => {
       try {

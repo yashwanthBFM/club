@@ -13,9 +13,6 @@ const nextConfig = {
     svgr: false,
   },
   reactStrictMode: false,
-  server: {
-    port: parseInt(process.env.PORT || '4200', 10),
-  },
   poweredByHeader: false,
   compress: true,
   productionBrowserSourceMaps: false,

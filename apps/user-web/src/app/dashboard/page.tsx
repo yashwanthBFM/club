@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { env } from '@/config/env';
 import styles from './dashboard.module.css';
 import { fetchGames, registerForGame } from '../api';
 
@@ -73,7 +74,7 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchDashboardData = async () => {
       try {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem(env.auth.tokenKey);
         if (!token) {
           window.location.href = '/login';
           return;
@@ -121,7 +122,7 @@ export default function Dashboard() {
 
   const handleVote = async (pollId: number, optionId: number) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem(env.auth.tokenKey);
       const response = await fetch(`http://localhost:3000/polls/${pollId}/vote`, {
         method: 'POST',
         headers: {
@@ -148,7 +149,7 @@ export default function Dashboard() {
 
   const handlePayment = async (paymentId: number) => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem(env.auth.tokenKey);
       const response = await fetch(`http://localhost:3000/payments/${paymentId}/pay`, {
         method: 'POST',
         headers: {

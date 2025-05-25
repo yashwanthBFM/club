@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { env } from '@/config/env';
 import { fetchGames, registerForGame } from '../api';
 
 interface Game {
@@ -28,7 +29,7 @@ export default function GamesPage() {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem(env.auth.tokenKey);
     setIsLoggedIn(!!token);
     loadGames();
   }, []);
