@@ -1247,6 +1247,6 @@ app.patch('/users/:id/status', authenticateToken, authorizeRole('ADMIN'), async 
   }
 });
 
-app.listen(port, host, () => {
-  console.log(`[ ready ] http://${host}:${port}`);
+app.listen(port, () => {
+  console.log(`app listening on port ${port}`)
 });
