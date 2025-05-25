@@ -23,7 +23,22 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@/components/*": [
+        "./src/components/*"
+      ],
+      "@/contexts/*": [
+        "./src/contexts/*"
+      ],
+      "@/lib/*": [
+        "./src/lib/*"
+      ]
+    }
   },
   "include": [
     "**/*.js",
@@ -32,8 +47,9 @@
     "**/*.tsx",
     "../../apps/user-web/.next/types/**/*.ts",
     "../../dist/apps/user-web/.next/types/**/*.ts",
+    ".next/types/**/*.ts",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
+    "../../dist/.next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules",

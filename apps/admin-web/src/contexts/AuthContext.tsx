@@ -21,34 +21,49 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+const getStoredToken = () => {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem(env.auth.tokenKey);
+};
+
+const setStoredToken = (token: string) => {
+  if (typeof window === 'undefined') return;
+  localStorage.setItem(env.auth.tokenKey, token);
+};
+
+const removeStoredToken = () => {
+  if (typeof window === 'undefined') return;
+  localStorage.removeItem(env.auth.tokenKey);
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    const token = localStorage.getItem(env.auth.tokenKey);
-    if (token) {
-      api.get('/auth/me')
-        .then(response => {
+    const checkAuth = async () => {
+      try {
+        const token = getStoredToken();
+        if (token) {
+          const response = await api.get('/auth/me');
           setUser(response.data);
-        })
-        .catch(() => {
-          localStorage.removeItem(env.auth.tokenKey);
-        })
-        .finally(() => {
-          setLoading(false);
-        });
-    } else {
-      setLoading(false);
-    }
+        }
+      } catch (error) {
+        removeStoredToken();
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
   }, []);
 
   const login = async (email: string, password: string) => {
     try {
       const response = await api.post('/auth/login', { email, password });
       const { token, user } = response.data;
-      localStorage.setItem(env.auth.tokenKey, token);
+      setStoredToken(token);
       setUser(user);
       router.push('/dashboard');
     } catch (error) {
@@ -57,7 +72,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const logout = () => {
-    localStorage.removeItem(env.auth.tokenKey);
+    removeStoredToken();
     setUser(null);
     router.push('/login');
   };

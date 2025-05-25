@@ -12,16 +12,9 @@ const nextConfig = {
   nx: {
     svgr: false,
   },
-  reactStrictMode: true,
+  reactStrictMode: false,
   server: {
     port: 4201,
-  },
-  webpack: (config) => {
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      '@': require('path').resolve(__dirname, 'src'),
-    };
-    return config;
   },
   poweredByHeader: false,
   compress: true,
@@ -41,7 +34,6 @@ const nextConfig = {
     NEXT_PUBLIC_ENABLE_ANALYTICS: process.env.NEXT_PUBLIC_ENABLE_ANALYTICS,
   },
   // Production optimizations
-  swcMinify: true,
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },

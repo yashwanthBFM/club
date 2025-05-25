@@ -22,9 +22,19 @@
       "esnext"
     ],
     "skipLibCheck": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "./src/*"
+      ],
+      "@/components/*": [
+        "./src/components/*"
+      ],
+      "@/contexts/*": [
+        "./src/contexts/*"
+      ],
+      "@/lib/*": [
+        "./src/lib/*"
       ]
     }
   },
@@ -33,9 +43,11 @@
     "**/*.jsx",
     "**/*.ts",
     "**/*.tsx",
+    "../../dist/.next/types/**/*.ts",
     "../../types/**/*.d.ts",
+    ".next/types/**/*.ts",
     "next-env.d.ts",
-    ".next/types/**/*.ts"
+    "../../dist/apps/admin-web/.next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

@@ -1,6 +1,8 @@
+"use client";
+
 import React, { useState, useEffect } from 'react';
-import styles from './header.module.css';
 import Link from 'next/link';
+import styles from './header.module.css';
 
 interface User {
   name: string;
