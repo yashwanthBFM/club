@@ -14,7 +14,7 @@ const nextConfig = {
   },
   reactStrictMode: false,
   server: {
-    port: 4201,
+    port: parseInt(process.env.PORT || '4201', 10),
   },
   poweredByHeader: false,
   compress: true,
