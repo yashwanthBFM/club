@@ -1203,7 +1203,7 @@ app.get('/users', authenticateToken, authorizeRole('ADMIN'), async (req: Request
 });
 
 // Update user status
-app.patch('/users/:id/status', authenticateToken, authorizeRole('ADMIN'), async (req: Request, res: Response) => {
+app.put('/users/:id/status', authenticateToken, authorizeRole('ADMIN'), async (req: Request, res: Response) => {
   const userId = parseInt(req.params.id);
   const { status } = req.body;
 
