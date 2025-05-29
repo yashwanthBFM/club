@@ -21,6 +21,16 @@ import {
 import { announcementsApi } from '@/services/announcements';
 import { toast } from 'sonner';
 
+type AnnouncementType = 'INFO' | 'WARNING' | 'SUCCESS' | 'ERROR';
+
+interface FormData {
+  title: string;
+  content: string;
+  type: AnnouncementType;
+  startDate: string;
+  endDate: string;
+}
+
 interface CreateAnnouncementDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -33,7 +43,7 @@ export function CreateAnnouncementDialog({
   onSuccess,
 }: CreateAnnouncementDialogProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<FormData>({
     title: '',
     content: '',
     type: 'INFO',
@@ -94,7 +104,7 @@ export function CreateAnnouncementDialog({
             <Label htmlFor="type">Type</Label>
             <Select
               value={formData.type}
-              onValueChange={(value) => setFormData({ ...formData, type: value })}
+              onValueChange={(value: AnnouncementType) => setFormData({ ...formData, type: value })}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Select type" />
