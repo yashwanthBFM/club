@@ -45,6 +45,16 @@ export function Header() {
           >
             Announcements
           </Link>
+          <Link
+            href="/payment-requests"
+            className={`px-3 py-2 text-sm font-medium rounded-md ${
+              isActive('/payment-requests')
+                ? 'bg-gray-100 text-gray-900'
+                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+            }`}
+          >
+            Payment Requests
+          </Link>
         </nav>
       </div>
       <div className="flex items-center space-x-4">

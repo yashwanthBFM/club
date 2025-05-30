@@ -933,6 +933,41 @@ app.get('/auth/user-details', authenticateToken, async (req: Request, res: Respo
   }
 });
 
+// Get current user details
+app.get('/auth/me', authenticateToken, async (req: Request, res: Response) => {
+  const authenticatedReq = req as AuthenticatedRequest;
+  const userId = authenticatedReq.user?.userId;
+
+  if (!userId) {
+    return res.status(403).json({ error: 'User ID not found in token.' });
+  }
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        isEmailVerified: true,
+        status: true,
+        createdAt: true,
+        updatedAt: true,
+      },
+    });
+
+    if (!user) {
+      return res.status(404).json({ error: 'User not found.' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('Get user details error:', error);
+    res.status(500).json({ error: 'Could not retrieve user details.' });
+  }
+});
+
 // --- Games API Endpoints ---
 
 // Create Game (Admin only)
@@ -1244,6 +1279,40 @@ app.put('/users/:id/status', authenticateToken, authorizeRole('ADMIN'), async (r
   } catch (error) {
     console.error('Update user status error:', error);
     res.status(500).json({ error: 'Could not update user status.' });
+  }
+});
+
+// --- Dashboard Stats API Endpoint ---
+app.get('/api/dashboard-stats', authenticateToken, authorizeRole('ADMIN'), async (req: Request, res: Response) => {
+  try {
+    // Total users
+    const userCount = await prisma.user.count();
+
+    // Active games (assuming status: 'ONGOING')
+    const activeGames = await prisma.game.count({
+      where: { status: 'ONGOING' }
+    });
+
+    // Total revenue (sum of all payments)
+    const revenueAgg = await prisma.payment.aggregate({
+      _sum: { amountPaid: true }
+    });
+    const totalRevenue = revenueAgg._sum.amountPaid || 0;
+
+    // Active sessions (example: users with status ACTIVE)
+    const activeSessions = await prisma.user.count({
+      where: { status: 'ACTIVE' }
+    });
+
+    res.json({
+      userCount,
+      activeGames,
+      totalRevenue,
+      activeSessions
+    });
+  } catch (error) {
+    console.error('Dashboard stats error:', error);
+    res.status(500).json({ error: 'Could not retrieve dashboard stats.' });
   }
 });
 
