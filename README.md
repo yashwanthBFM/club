@@ -16,7 +16,7 @@ This monorepo contains the codebase for the Football Club website, including:
 1.  **Clone the repository:**
     ```bash
     git clone <repository-url>
-    cd football-club-monorepo
+    cd club
     ```
 
 2.  **Install dependencies:**
