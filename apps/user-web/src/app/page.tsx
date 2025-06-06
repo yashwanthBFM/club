@@ -6,6 +6,7 @@ import Announcements from './components/Announcements';
 import React, { useEffect, useState } from 'react';
 import { env } from '@/config/env';
 import { fetchGames } from './api';
+import Navbar from './Navbar';
 
 interface Game {
   id: number;
@@ -41,9 +42,11 @@ export default function HomePage() {
   };
 
   return (
+    <>
+    <Navbar />
     <div className={styles.parallaxContainer}>
       {/* Hero Section */}
-      <section className={styles.heroSection}>
+      <section id="/" className={styles.heroSection}>
         <div className={styles.heroContent}>
           <h1 className={styles.heroTitle}>Welcome to Football Club</h1>
           <p className={styles.heroSubtitle}>
@@ -64,7 +67,7 @@ export default function HomePage() {
       <Announcements />
 
       {/* About Section */}
-      <section className={styles.aboutSection}>
+      <section id="about" className={styles.aboutSection}>
         <div className={styles.aboutContent}>
           <h2 className={styles.aboutTitle}>Why Choose Us?</h2>
           <div className={styles.featuresGrid}>
@@ -91,7 +94,7 @@ export default function HomePage() {
       </section>
 
       {/* Events Section */}
-      <section className={styles.eventsSection}>
+      <section id="events" className={styles.eventsSection}>
         <div className={styles.eventsContent}>
           <h2 className={styles.eventsTitle}>Upcoming Events</h2>
           <div className={styles.eventsGrid}>
@@ -130,8 +133,8 @@ export default function HomePage() {
       </section>
 
       {/* Join Section */}
-      <section className={styles.joinSection}>
-        <div className={styles.joinContent}>
+      <section id="join" className={styles.joinSection}>
+        <div className={styles.eventCard2}>
           <h2 className={styles.joinTitle}>Become Part of Our Team</h2>
           <p className={styles.joinDescription}>
             Whether you're a seasoned player or just starting out, we welcome everyone to join our football family.
@@ -166,5 +169,6 @@ export default function HomePage() {
         </div>
       </section>
     </div>
+    </>
   );
 }

@@ -1,26 +1,38 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
 .loginContainer {
+  background-image: url('/2.png');
+  background-size: 100% 100%;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-repeat : no-repeat;
   min-height: 100vh;
+  min-width: 550px;
   background-color: #f0f2f5; /* Light gray background */
   padding: 20px;
 }
 
 .loginBox {
-  background: #fff;
-  padding: 2.5rem 3rem;
+  background: rgba(43, 26, 26, 0);
   border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 12px rgba(205, 194, 194, 0.02);
+  padding: 2px 15px;
+  backdrop-filter: blur(20px);
   width: 100%;
-  max-width: 420px;
+  max-width: 450px;
   text-align: center;
 }
 
 .title {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #dfd3ae;
+  font-weight: bold;
   font-size: 2rem;
-  color: #004d00; /* Dark Green for Texas Theme */
-  margin-bottom: 1.5rem;
 }
 
 .loginForm {
@@ -36,7 +48,7 @@
 .inputGroup label {
   display: block;
   font-size: 0.9rem;
-  color: #555;
+  color: #eee0dfec;
   margin-bottom: 0.5rem;
   font-weight: 500;
 }
@@ -57,7 +69,7 @@
 }
 
 .loginButton {
-  background: #c8102e; /* Texas Red */
+  background: #10bfc8; /* Texas Red */
   color: #fff;
   padding: 0.8rem 1.5rem;
   border: none;
@@ -70,7 +82,8 @@
 }
 
 .loginButton:hover {
-  background: #a00d23; /* Darker Texas Red */
+  background: #02f3db;
+  translate: 0 -1.5px;
 }
 
 .errorMessage {
@@ -82,11 +95,11 @@
 .signupText {
   margin-top: 1.5rem;
   font-size: 0.9rem;
-  color: #555;
+  color: #baa5b6;
 }
 
 .signupText a {
-  color: #004d00; /* Dark Green */
+  color: #17b617; /* Dark Green */
   text-decoration: none;
   font-weight: bold;
 }
@@ -101,7 +114,7 @@
 }
 
 .homeLink a {
-  color: #777;
+  color: #f1eaea;
   text-decoration: none;
 }
 

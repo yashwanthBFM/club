@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 55px;
+  background: rgba(0, 0, 0, 0.876);
+  backdrop-filter: blur(0.5px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  font-family: 'Bebas Neue', sans-serif;
+  transition: all 0.3s ease-in-out;
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: #fff;
+  font-weight: 200;
+}
+
+.links {
+  font-size: 1.5rem;
+  display: flex;
+  gap: 1.8rem;
+}
+
+.links a {
+  position: relative;
+  color: #fff;
+  font-weight: 400;
+  text-decoration: none;
+  padding: 0.05px 0.05px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.links a:hover {
+  color: #00ffe0;
+  background: rgba(0, 255, 255, 0.1);
+
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 4px;
+  padding: 8px;
+  transition: transform 0.3s;
+}
+
+.hamburger:hover {
+  transform: scale(1.1);
+}
+
+.hamburger span {
+  width: 30px;
+  height: 5px;
+  background: #fff;
+  border-radius: 3px;
+}
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+  .links {
+    position: absolute;
+    top: 58px;
+    right: 0;
+    width: 100%;
+    flex-direction: column;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(6px);
+    padding: 1rem 2rem;
+    display: none;
+    gap: 1rem;
+    text-align: center;
+  }
+
+  .showMenu {
+    display: flex;
+  }
+
+  .hamburger {
+    display: flex;
+  }
+}

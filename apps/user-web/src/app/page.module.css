@@ -1,5 +1,30 @@
 /* Basic Reset removed - moved to global.css */
 /* body styles removed - moved to global.css */
+/* Add this near the top */
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* Apply Anton font to all section headings */
+.heroTitle,
+.eventsTitle,
+.joinTitle,
+.featureTitle,
+.eventTitle{
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: bold;
+}
+
+.aboutTitle{
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  background-color: #fff;
+  font-weight: bold;
+}
 
 .container {
   width: 100%;
@@ -42,42 +67,71 @@
 
 /* Hero Section */
 .parallaxContainer {
-  min-height: 100vh;
+  width: 100%;
   overflow-x: hidden;
 }
 
 .heroSection {
-  min-height: 100vh;
+  height: 100vh;
+  background-image: url('/1.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
-              url('/images/hero-bg.jpg') center/cover no-repeat;
-  color: white;
   text-align: center;
-  padding: 2rem;
+  color: white;
+}
+
+.heroSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 .heroContent {
+  position: relative;
+  z-index: 2;
   max-width: 800px;
+  padding: 0 20px;
 }
 
 .heroTitle {
   font-size: 4rem;
-  margin-bottom: 1.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+  margin-bottom: 1rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .heroSubtitle {
   font-size: 1.5rem;
   margin-bottom: 2rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 }
 
 /* About Section */
 .aboutSection {
-  padding: 6rem 2rem;
-  background-color: white;
+  height:'90vh';
+  background-image: url('/2.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 100px 20px;
+  background-color: #f8f9fa00;
+  text-align: center;
 }
 
 .aboutContent {
@@ -87,23 +141,22 @@
 
 .aboutTitle {
   font-size: 2.5rem;
-  color: #1a1a1a;
-  margin-bottom: 3rem;
-  text-align: center;
+  margin-bottom: 2rem;
+  color: #333;
 }
 
 .featuresGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  padding: 1rem;
+  margin-top: 3rem;
 }
 
 .featureCard {
-  background: #f8f9fa;
-  border-radius: 12px;
+  background: white;
   padding: 2rem;
-  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease;
 }
 
@@ -113,45 +166,65 @@
 
 .featureTitle {
   font-size: 1.5rem;
-  color: #2c3e50;
   margin-bottom: 1rem;
+  color: #333;
 }
 
 .featureDescription {
-  color: #4a5568;
+  color: #666;
   line-height: 1.6;
 }
 
 /* Events Section */
 .eventsSection {
-  padding: 6rem 2rem;
-  background-color: #f8f9fa;
+  height:'130vh';
+  padding: 100px 20px;
+  background-image: url('/3.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  color: white;
+}
+
+.eventsSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1;
 }
 
 .eventsContent {
+  position: relative;
+  z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .eventsTitle {
   font-size: 2.5rem;
-  color: #1a1a1a;
-  margin-bottom: 3rem;
-  text-align: center;
+  margin-bottom: 2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .eventsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
-  padding: 1rem;
+  margin-top: 3rem;
 }
 
 .eventCard {
-  background: white;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
   padding: 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
   transition: transform 0.3s ease;
 }
 
@@ -159,29 +232,50 @@
   transform: translateY(-5px);
 }
 
+.eventCard2 {
+  background: rgba(17, 15, 15, 0);
+  backdrop-filter: blur(40px);
+  padding: 2rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+
+
 .eventTitle {
   font-size: 1.5rem;
-  color: #2c3e50;
   margin-bottom: 1rem;
 }
 
 .eventDate {
-  color: #718096;
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   margin-bottom: 1rem;
+  color: #ffd700;
 }
 
 .eventDescription {
-  color: #4a5568;
-  line-height: 1.6;
   margin-bottom: 1.5rem;
+  line-height: 1.6;
 }
 
 /* Join Section */
 .joinSection {
-  padding: 6rem 2rem;
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-              url('/images/join-bg.jpg') center/cover no-repeat;
+  height: 80vh;
+  background-image: url('/4.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  padding: 100px 20px;
+  background-color: #f8f9fa00;
+  text-align: center;
+  padding: 100px 20px;
+  background-color: #1a1a1a;
   color: white;
   text-align: center;
 }
@@ -194,34 +288,32 @@
 .joinTitle {
   font-size: 2.5rem;
   margin-bottom: 1.5rem;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .joinDescription {
   font-size: 1.2rem;
-  line-height: 1.6;
   margin-bottom: 2rem;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+  line-height: 1.6;
 }
 
 /* Buttons */
 .button {
   display: inline-block;
   padding: 1rem 2rem;
-  border-radius: 50px;
+  border-radius: 5px;
   text-decoration: none;
-  font-weight: 600;
+  font-weight: bold;
   transition: all 0.3s ease;
-  margin: 0 0.5rem;
+  margin: 0.5rem;
 }
 
 .primaryButton {
-  background-color: #4CAF50;
+  background-color: #065143;
   color: white;
 }
 
 .primaryButton:hover {
-  background-color: #45a049;
+  background-color: #33ffbe81;
   transform: translateY(-2px);
 }
 
@@ -233,12 +325,13 @@
 
 .secondaryButton:hover {
   background-color: white;
-  color: #333;
+  color: #1a1a1a;
   transform: translateY(-2px);
 }
 
 /* Footer */
 .footer {
+  
   background: #333;
   color: #fff;
   text-align: center;
@@ -276,17 +369,11 @@
   }
 
   .heroTitle {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
 
   .heroSubtitle {
     font-size: 1.2rem;
-  }
-
-  .button {
-    display: block;
-    margin: 1rem auto;
-    max-width: 200px;
   }
 
   .aboutTitle,
@@ -298,5 +385,15 @@
   .featuresGrid,
   .eventsGrid {
     grid-template-columns: 1fr;
+  }
+
+  .button {
+    display: block;
+    width: 100%;
+    margin: 0.5rem 0;
+  }
+
+  .mainContent {
+    padding: 2rem 3%;
   }
 }
