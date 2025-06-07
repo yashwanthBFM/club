@@ -81,7 +81,7 @@ export default function Dashboard() {
         }
 
         // Fetch polls
-        const pollsResponse = await fetch('http://localhost:3000/polls', {
+        const pollsResponse = await fetch('http://https://club-m1gy.onrender.com/polls', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -90,7 +90,7 @@ export default function Dashboard() {
         setPolls(pollsData);
 
         // Fetch notifications
-        const notificationsResponse = await fetch('http://localhost:3000/notifications', {
+        const notificationsResponse = await fetch('http://https://club-m1gy.onrender.com/notifications', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -99,7 +99,7 @@ export default function Dashboard() {
         setNotifications(notificationsData);
 
         // Fetch payment requests
-        const paymentsResponse = await fetch('http://localhost:3000/payment-requests/my', {
+        const paymentsResponse = await fetch('http://https://club-m1gy.onrender.com/payment-requests/my', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -123,7 +123,7 @@ export default function Dashboard() {
   const handleVote = async (pollId: number, optionId: number) => {
     try {
       const token = localStorage.getItem(env.auth.tokenKey);
-      const response = await fetch(`http://localhost:3000/polls/${pollId}/vote`, {
+      const response = await fetch(`http://https://club-m1gy.onrender.com/polls/${pollId}/vote`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -134,7 +134,7 @@ export default function Dashboard() {
 
       if (response.ok) {
         // Refresh polls after voting
-        const pollsResponse = await fetch('http://localhost:3000/polls', {
+        const pollsResponse = await fetch('http://https://club-m1gy.onrender.com/polls', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
@@ -150,7 +150,7 @@ export default function Dashboard() {
   const handlePayment = async (paymentId: number) => {
     try {
       const token = localStorage.getItem(env.auth.tokenKey);
-      const response = await fetch(`http://localhost:3000/payments/${paymentId}/pay`, {
+      const response = await fetch(`http://https://club-m1gy.onrender.com/payments/${paymentId}/pay`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`
@@ -224,7 +224,7 @@ export default function Dashboard() {
         <section className={styles.section}>
           <h2>Notifications</h2>
           <div className={styles.cards}>
-            {notifications && notifications?.map(notification => (
+            {notifications && notifications.map(notification => (
               <div key={notification.id} className={`${styles.card} ${!notification.read ? styles.unread : ''}`}>
                 <h3>{notification.title}</h3>
                 <p>{notification.message}</p>
@@ -251,12 +251,8 @@ export default function Dashboard() {
                     Pay Now
                   </button>
                 )}
-                {payment.status === 'paid' && (
-                  <p className={styles.status}>Paid</p>
-                )}
-                {payment.status === 'overdue' && (
-                  <p className={styles.status}>Overdue</p>
-                )}
+                {payment.status === 'paid' && <p className={styles.status}>Paid</p>}
+                {payment.status === 'overdue' && <p className={styles.status}>Overdue</p>}
               </div>
             ))}
           </div>
@@ -266,7 +262,7 @@ export default function Dashboard() {
         <section className={styles.section}>
           <h2>Upcoming Games</h2>
           <div className={styles.cards}>
-            {games.map((game) => (
+            {games.map(game => (
               <div key={game.id} className={styles.card}>
                 <h3>{game.title}</h3>
                 <p>{game.description}</p>
@@ -288,4 +284,4 @@ export default function Dashboard() {
       </div>
     </div>
   );
-} 
+}

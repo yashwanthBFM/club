@@ -28,7 +28,7 @@ export default function Announcements() {
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
-        const response = await fetch('http://localhost:3000/announcements');
+        const response = await fetch('http://https://club-m1gy.onrender.com/announcements');
         if (!response.ok) {
           throw new Error('Failed to fetch announcements');
         }

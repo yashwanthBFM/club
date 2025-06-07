@@ -18,7 +18,7 @@ export default function Header() {
       const token = localStorage.getItem(env.auth.tokenKey);
       if (token) {
         try {
-          const response = await fetch('http://localhost:3000/auth/user-details', {
+          const response = await fetch('http://https://club-m1gy.onrender.com/auth/user-details', {
             headers: {
               'Authorization': `Bearer ${token}`,
             },

@@ -18,6 +18,7 @@ export default function Navbar() {
         <a href="#about" onClick={closeMenu}>About</a>
         <a href="#events" onClick={closeMenu}>Events</a>
         <a href="#join" onClick={closeMenu}>Join</a>
+
       </div>
       <div className={styles.hamburger} onClick={toggleMenu}>
         <span />

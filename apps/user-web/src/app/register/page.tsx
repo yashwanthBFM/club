@@ -35,7 +35,7 @@ export default function RegisterPage() {
       return;
     }
     try {
-      const response = await fetch('http://localhost:3000/auth/register', {
+      const response = await fetch('http://https://club-m1gy.onrender.com/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, name: `${firstName} ${lastName}` }),
@@ -55,7 +55,7 @@ export default function RegisterPage() {
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/auth/verify-otp', {
+      const response = await fetch('http://https://club-m1gy.onrender.com/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp, type: 'REGISTRATION' }),

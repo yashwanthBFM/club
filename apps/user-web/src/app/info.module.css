@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+
+.infoSection {
+  background-image: url('/10.jpg');
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  padding: 4rem 2rem;
+  overflow: hidden;
+}
+
+.infoBlockGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  padding: 3rem 1rem;
+  text-align: center;
+}
+
+.playerCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.playerImage {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.playerName {
+  margin-top: 1rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: #f0f0f0;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+}
+
+.infoBlock {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  backdrop-filter: blur(100px);
+  background: rgba(255, 255, 255, 0);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.infoBlock2 {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  backdrop-filter: blur(190px);
+  background: rgba(255, 255, 255, 0);
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.reverse {
+  flex-direction: row-reverse;
+}
+
+.textContent {
+  flex: 1;
+  color: #fff;
+  font-family: 'Russo One', sans-serif;
+}
+
+.textContent h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: bold;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.textContent p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #dddddd;
+}
+
+.image {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .infoBlock,
+  .reverse {
+    flex-direction: column;
+  }
+
+  .image {
+    width: 200px;
+    height: 200px;
+  }
+
+  .textContent {
+    text-align: center;
+  }
+
+  .textContent h2 {
+    font-size: 1.5rem;
+  }
+
+  .textContent p {
+    font-size: 1rem;
+  }
+}
