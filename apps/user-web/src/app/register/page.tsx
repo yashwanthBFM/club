@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './register.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import api from '@/lib/api';
 
 interface User {
   name: string;
@@ -19,6 +20,9 @@ export default function RegisterPage() {
   const [otp, setOtp] = useState('');
   const [otpSent, setOtpSent] = useState(false);
   const [user, setUser] = useState<User | null>(null);
+  const [userType, setUserType] = useState<'regular' | 'parent'>('regular');
+  const [childName, setChildName] = useState('');
+  const [childAge, setChildAge] = useState('');
   const router = useRouter();
 
   useEffect(() => {
@@ -34,14 +38,26 @@ export default function RegisterPage() {
       alert('Passwords do not match');
       return;
     }
+
+    if (userType === 'parent' && (!childName || !childAge)) {
+      alert('Child name and age are required for parent registration');
+      return;
+    }
+
     try {
-      const response = await fetch('http://https://club-m1gy.onrender.com/auth/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, name: `${firstName} ${lastName}` }),
+      const endpoint = userType === 'parent' ? '/auth/register-parent' : '/auth/register';
+      const response = await api.post(endpoint, {
+        email,
+        password,
+        name: `${firstName} ${lastName}`,
+        ...(userType === 'parent' && {
+          childName,
+          childAge: parseInt(childAge),
+        }),
       });
-      const data = await response.json();
-      if (response.ok) {
+      
+      const data = response.data;
+      if (data) {
         setOtpSent(true);
         alert(data.message);
       } else {
@@ -55,13 +71,13 @@ export default function RegisterPage() {
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://https://club-m1gy.onrender.com/auth/verify-otp', {
+      const response = await api.post('/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp, type: 'REGISTRATION' }),
       });
-      const data = await response.json();
-      if (response.ok) {
+      const data = response.data;
+      if (data) {
         alert(data.message);
         localStorage.setItem('user', JSON.stringify({ name: `${firstName} ${lastName}`, email }));
         setUser({ name: `${firstName} ${lastName}`, email });
@@ -85,6 +101,17 @@ export default function RegisterPage() {
         <h1 className={styles.title}>Create Account</h1>
         {!otpSent ? (
           <form className={styles.registerForm} onSubmit={handleRegister}>
+            <div className={styles.inputGroup}>
+              <label>Account Type</label>
+              <select
+                value={userType}
+                onChange={(e) => setUserType(e.target.value as 'regular' | 'parent')}
+                className={styles.select}
+              >
+                <option value="regular">Regular Member</option>
+                <option value="parent">Parent</option>
+              </select>
+            </div>
             <div className={styles.inputGroup}>
               <label htmlFor="firstName">First Name</label>
               <input
@@ -135,6 +162,32 @@ export default function RegisterPage() {
                 required
               />
             </div>
+            {userType === 'parent' && (
+              <>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="childName">Child's Name</label>
+                  <input
+                    type="text"
+                    id="childName"
+                    value={childName}
+                    onChange={(e) => setChildName(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="childAge">Child's Age</label>
+                  <input
+                    type="number"
+                    id="childAge"
+                    value={childAge}
+                    onChange={(e) => setChildAge(e.target.value)}
+                    min="1"
+                    max="18"
+                    required
+                  />
+                </div>
+              </>
+            )}
             <button type="submit" className={styles.registerButton}>Register</button>
           </form>
         ) : (

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { env } from '@/config/env';
 import styles from './dashboard.module.css';
 import { fetchGames, registerForGame } from '../api';
+import api from '@/lib/api';
 
 interface PollOption {
   id: number;
@@ -81,30 +82,30 @@ export default function Dashboard() {
         }
 
         // Fetch polls
-        const pollsResponse = await fetch('http://https://club-m1gy.onrender.com/polls', {
+        const pollsResponse = await api.get('/polls', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-        const pollsData = await pollsResponse.json();
+        const pollsData = pollsResponse.data;
         setPolls(pollsData);
 
         // Fetch notifications
-        const notificationsResponse = await fetch('http://https://club-m1gy.onrender.com/notifications', {
+        const notificationsResponse = await api.get('/notifications', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-        const notificationsData = await notificationsResponse.json();
+        const notificationsData = notificationsResponse.data;
         setNotifications(notificationsData);
 
         // Fetch payment requests
-        const paymentsResponse = await fetch('http://https://club-m1gy.onrender.com/payment-requests/my', {
+        const paymentsResponse = await api.get('/payment-requests/my', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-        const paymentsData = await paymentsResponse.json();
+        const paymentsData = paymentsResponse.data;
         setPaymentRequests(paymentsData);
 
         // Fetch games
@@ -123,8 +124,7 @@ export default function Dashboard() {
   const handleVote = async (pollId: number, optionId: number) => {
     try {
       const token = localStorage.getItem(env.auth.tokenKey);
-      const response = await fetch(`http://https://club-m1gy.onrender.com/polls/${pollId}/vote`, {
-        method: 'POST',
+      const response = await api.post(`/polls/${pollId}/vote`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -132,14 +132,14 @@ export default function Dashboard() {
         body: JSON.stringify({ optionId })
       });
 
-      if (response.ok) {
+      if (response.data) {
         // Refresh polls after voting
-        const pollsResponse = await fetch('http://https://club-m1gy.onrender.com/polls', {
+        const pollsResponse = await api.get('/polls', {
           headers: {
             'Authorization': `Bearer ${token}`
           }
         });
-        const pollsData = await pollsResponse.json();
+        const pollsData = pollsResponse.data;
         setPolls(pollsData);
       }
     } catch (error) {
@@ -150,14 +150,13 @@ export default function Dashboard() {
   const handlePayment = async (paymentId: number) => {
     try {
       const token = localStorage.getItem(env.auth.tokenKey);
-      const response = await fetch(`http://https://club-m1gy.onrender.com/payments/${paymentId}/pay`, {
-        method: 'POST',
+      const response = await api.post(`/payments/${paymentId}/pay`, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
       });
 
-      if (response.ok) {
+      if (response.data) {
         setPaymentRequests(paymentRequests.map(payment =>
           payment.id === paymentId ? { ...payment, status: 'paid' } : payment
         ));

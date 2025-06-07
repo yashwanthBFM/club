@@ -25,6 +25,7 @@ model User {
   otp                     String?
   otpExpiresAt            DateTime?
   otpType                 OTPType?
+  metadata                Json?              // Store additional user data like child information
   createdAnnouncements    Announcement[]     @relation("UserCreatedAnnouncements")
   createdGames            Game[]             @relation("UserCreatedGames")
   gameRegistrations       GameRegistration[] @relation("UserGameRegistrations")
@@ -34,7 +35,9 @@ model User {
   targetedPaymentRequests PaymentRequest[]   @relation("UserTargetedPaymentRequests")
   createdPolls            Poll[]             @relation("UserPolls")
   votes                   Vote[]             @relation("UserVotes")
-  status        UserStatus @default(ACTIVE)
+  status                  UserStatus         @default(ACTIVE)
+  createdTeams            Team[]             @relation("UserCreatedTeams")
+  teamMemberships         TeamMember[]       @relation("UserTeamMemberships")
 }
 
 model Poll {
@@ -156,9 +159,34 @@ model Announcement {
   createdBy   User     @relation("UserCreatedAnnouncements", fields: [createdById], references: [id])
 }
 
+model Team {
+  id          Int          @id @default(autoincrement())
+  name        String
+  description String?
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  createdById Int
+  createdBy   User         @relation("UserCreatedTeams", fields: [createdById], references: [id])
+  members     TeamMember[]
+  maxMembers  Int          @default(12)
+}
+
+model TeamMember {
+  id        Int      @id @default(autoincrement())
+  teamId    Int
+  userId    Int
+  role      String   @default("MEMBER") // Can be "CAPTAIN", "MEMBER", etc.
+  joinedAt  DateTime @default(now())
+  team      Team     @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  user      User     @relation("UserTeamMemberships", fields: [userId], references: [id])
+
+  @@unique([teamId, userId])
+}
+
 enum Role {
   USER
   ADMIN
+  PARENT
 }
 
 enum OTPType {

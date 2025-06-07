@@ -24,8 +24,8 @@ export const getOTPExpiry = (): Date => {
 };
 
 export const sendOTPEmail = async (email: string, otp: string, type: OTPType): Promise<void> => {
-  const subject = type === 'REGISTRATION' 
-    ? 'Verify Your Email Address' 
+  const subject = type === 'REGISTRATION'
+    ? 'Verify Your Email Address'
     : 'Password Reset OTP';
 
   const html = `
@@ -46,7 +46,6 @@ export const sendOTPEmail = async (email: string, otp: string, type: OTPType): P
     });
   } catch (error) {
     console.error('Error sending OTP email:', error);
-    throw new Error('Failed to send OTP email');
   }
 };
 

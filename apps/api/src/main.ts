@@ -572,39 +572,107 @@ app.delete('/polls/:id', authenticateToken, async (req: Request, res: Response) 
 // Create a Payment Request (Admin/Staff only)
 app.post('/payment-requests', authenticateToken, authorizeRole('ADMIN'), async (req: Request, res: Response) => {
   const authenticatedReq = req as AuthenticatedRequest;
-  const { targetUserId, description, amount, dueDate } = authenticatedReq.body;
+  const { targetUserId, teamId, description, amount, dueDate } = authenticatedReq.body;
   const createdById = authenticatedReq.user?.userId;
 
-  if (!targetUserId || !description || amount == null || !createdById) {
-    return res.status(400).json({ error: 'Target user, description, amount, and creator ID are required.' });
+  if ((!targetUserId && !teamId) || !description || amount == null || !createdById) {
+    return res.status(400).json({ error: 'Either target user or team ID, description, amount, and creator ID are required.' });
   }
   if (parseFloat(amount) <= 0) {
-      return res.status(400).json({ error: 'Amount must be positive.'});
+    return res.status(400).json({ error: 'Amount must be positive.'});
   }
 
   try {
-    const newPaymentRequest = await prisma.paymentRequest.create({
-      data: {
-        targetUserId: parseInt(targetUserId, 10),
-        createdById: createdById,
-        description,
-        amount: parseFloat(amount),
-        dueDate: dueDate ? new Date(dueDate) : null,
-        // status: 'PENDING', // Default from schema
-      },
-      include: { targetUser: { select: { id: true, name: true, email: true }}, createdBy: { select: { id: true, name: true, email: true }} }
-    });
+    let paymentRequests = [];
 
-    // Notify target user about the new payment request
-    await createNotification({
+    if (teamId) {
+      // Get all team members
+      const team = await prisma.team.findUnique({
+        where: { id: parseInt(teamId) },
+        include: {
+          members: {
+            include: {
+              user: true
+            }
+          }
+        }
+      });
+
+      if (!team) {
+        return res.status(404).json({ error: 'Team not found.' });
+      }
+
+      // Create payment requests for each team member
+      for (const member of team.members) {
+        const newPaymentRequest = await prisma.paymentRequest.create({
+          data: {
+            targetUserId: member.user.id,
+            createdById: createdById,
+            description: `${description} (Team: ${team.name})`,
+            amount: parseFloat(amount),
+            dueDate: dueDate ? new Date(dueDate) : null,
+          },
+          include: { 
+            targetUser: { select: { id: true, name: true, email: true }}, 
+            createdBy: { select: { id: true, name: true, email: true }} 
+          }
+        });
+
+        // Notify team member about the new payment request
+        await createNotification({
+          userId: member.user.id,
+          message: `You have a new team payment request: "${description}" for $${amount}.`,
+          type: 'PAYMENT_REQUEST_NEW',
+          relatedEntityType: 'PaymentRequest',
+          relatedEntityId: newPaymentRequest.id
+        });
+
+        paymentRequests.push(newPaymentRequest);
+      }
+
+      // Notify team captain about the team payment request
+      const teamCaptain = team.members.find(m => m.role === 'CAPTAIN');
+      if (teamCaptain) {
+        await createNotification({
+          userId: teamCaptain.user.id,
+          message: `A new payment request has been created for all members of team "${team.name}".`,
+          type: 'PAYMENT_REQUEST_NEW',
+          relatedEntityType: 'Team',
+          relatedEntityId: team.id
+        });
+      }
+
+      return res.status(201).json({
+        message: `Payment requests created for all team members of ${team.name}`,
+        paymentRequests
+      });
+    } else {
+      // Handle individual payment request (existing logic)
+      const newPaymentRequest = await prisma.paymentRequest.create({
+        data: {
+          targetUserId: parseInt(targetUserId, 10),
+          createdById: createdById,
+          description,
+          amount: parseFloat(amount),
+          dueDate: dueDate ? new Date(dueDate) : null,
+        },
+        include: { 
+          targetUser: { select: { id: true, name: true, email: true }}, 
+          createdBy: { select: { id: true, name: true, email: true }} 
+        }
+      });
+
+      // Notify target user about the new payment request
+      await createNotification({
         userId: newPaymentRequest.targetUserId,
         message: `You have a new payment request: "${newPaymentRequest.description}" for $${newPaymentRequest.amount}.`,
         type: 'PAYMENT_REQUEST_NEW',
         relatedEntityType: 'PaymentRequest',
         relatedEntityId: newPaymentRequest.id
-    });
+      });
 
-    res.status(201).json(newPaymentRequest);
+      return res.status(201).json(newPaymentRequest);
+    }
   } catch (error) {
     console.error("Create payment request error:", error);
     res.status(500).json({ error: 'Could not create payment request.' });
@@ -1313,6 +1381,388 @@ app.get('/api/dashboard-stats', authenticateToken, authorizeRole('ADMIN'), async
   } catch (error) {
     console.error('Dashboard stats error:', error);
     res.status(500).json({ error: 'Could not retrieve dashboard stats.' });
+  }
+});
+
+// Parent Registration Endpoint
+app.post('/auth/register-parent', async (req, res) => {
+  const { email, password, name, childName, childAge } = req.body;
+
+  if (!email || !password || !childName || !childAge) {
+    return res.status(400).json({ error: 'Email, password, child name, and child age are required for parent registration' });
+  }
+
+  try {
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser && existingUser.isEmailVerified) {
+      return res.status(409).json({ error: 'User already exists and is verified.' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+    const otp = generateOTP();
+    const otpExpiresAt = getOTPExpiry();
+
+    const newUser = await prisma.user.create({
+      data: {
+        email,
+        name,
+        password: hashedPassword,
+        role: 'PARENT',
+        otp,
+        otpExpiresAt,
+        otpType: 'REGISTRATION',
+        isEmailVerified: false,
+        // Store child information in the user's metadata
+        metadata: {
+          childName,
+          childAge: parseInt(childAge),
+        },
+      },
+    });
+
+    await sendOTPEmail(email, otp, 'REGISTRATION');
+
+    // Exclude password and OTP details from the initial response
+    const { password: _p, otp: _o, otpExpiresAt: _oe, otpType: _ot, ...userForResponse } = newUser;
+    res.status(201).json({ 
+      message: 'Parent registered. Please verify OTP.', 
+      userId: userForResponse.id, 
+      email: userForResponse.email, 
+      otpSent: true 
+    });
+
+  } catch (error) {
+    console.error('Parent registration error:', error);
+    res.status(500).json({ error: 'Failed to register parent' });
+  }
+});
+
+// --- Team Management API Endpoints ---
+
+// Create a new team
+app.post('/teams', authenticateToken, async (req: Request, res: Response) => {
+  const authenticatedReq = req as AuthenticatedRequest;
+  const { name, description } = authenticatedReq.body;
+  const createdById = authenticatedReq.user?.userId;
+
+  if (!name || !createdById) {
+    return res.status(400).json({ error: 'Team name and creator ID are required.' });
+  }
+
+  try {
+    const newTeam = await prisma.team.create({
+      data: {
+        name,
+        description,
+        createdById,
+        members: {
+          create: {
+            userId: createdById,
+            role: 'CAPTAIN'
+          }
+        }
+      },
+      include: {
+        members: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true
+              }
+            }
+          }
+        }
+      }
+    });
+
+    res.status(201).json(newTeam);
+  } catch (error) {
+    console.error('Create team error:', error);
+    res.status(500).json({ error: 'Could not create team.' });
+  }
+});
+
+// Get all teams
+app.get('/teams', async (req: Request, res: Response) => {
+  try {
+    const teams = await prisma.team.findMany({
+      include: {
+        members: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true
+              }
+            }
+          }
+        },
+        createdBy: {
+          select: {
+            id: true,
+            name: true
+          }
+        }
+      }
+    });
+    res.json(teams);
+  } catch (error) {
+    console.error('Get teams error:', error);
+    res.status(500).json({ error: 'Could not retrieve teams.' });
+  }
+});
+
+// Get a specific team
+app.get('/teams/:id', async (req: Request, res: Response) => {
+  const teamId = parseInt(req.params.id);
+  
+  if (isNaN(teamId)) {
+    return res.status(400).json({ error: 'Invalid team ID.' });
+  }
+
+  try {
+    const team = await prisma.team.findUnique({
+      where: { id: teamId },
+      include: {
+        members: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true
+              }
+            }
+          }
+        },
+        createdBy: {
+          select: {
+            id: true,
+            name: true
+          }
+        }
+      }
+    });
+
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found.' });
+    }
+
+    res.json(team);
+  } catch (error) {
+    console.error(`Get team ${teamId} error:`, error);
+    res.status(500).json({ error: 'Could not retrieve team.' });
+  }
+});
+
+// Add member to team
+app.post('/teams/:id/members', authenticateToken, async (req: Request, res: Response) => {
+  const authenticatedReq = req as AuthenticatedRequest;
+  const teamId = parseInt(authenticatedReq.params.id);
+  const { userId } = authenticatedReq.body;
+  const requesterId = authenticatedReq.user?.userId;
+
+  if (isNaN(teamId) || !userId || !requesterId) {
+    return res.status(400).json({ error: 'Team ID and user ID are required.' });
+  }
+
+  try {
+    // Check if requester is team captain
+    const requesterMembership = await prisma.teamMember.findFirst({
+      where: {
+        teamId,
+        userId: requesterId,
+        role: 'CAPTAIN'
+      }
+    });
+
+    if (!requesterMembership) {
+      return res.status(403).json({ error: 'Only team captain can add members.' });
+    }
+
+    // Check if team is full
+    const team = await prisma.team.findUnique({
+      where: { id: teamId },
+      include: {
+        _count: {
+          select: { members: true }
+        }
+      }
+    });
+
+    if (!team) {
+      return res.status(404).json({ error: 'Team not found.' });
+    }
+
+    if (team._count.members >= team.maxMembers) {
+      return res.status(400).json({ error: 'Team has reached maximum member limit.' });
+    }
+
+    // Check if user is already a member
+    const existingMembership = await prisma.teamMember.findUnique({
+      where: {
+        teamId_userId: {
+          teamId,
+          userId: parseInt(userId)
+        }
+      }
+    });
+
+    if (existingMembership) {
+      return res.status(400).json({ error: 'User is already a member of this team.' });
+    }
+
+    // Add new member
+    const newMember = await prisma.teamMember.create({
+      data: {
+        teamId,
+        userId: parseInt(userId),
+        role: 'MEMBER'
+      },
+      include: {
+        user: {
+          select: {
+            id: true,
+            name: true,
+            email: true
+          }
+        }
+      }
+    });
+
+    // Notify the new member
+    await createNotification({
+      userId: parseInt(userId),
+      message: `You have been added to team "${team.name}"`,
+      type: 'GENERAL',
+      relatedEntityType: 'Team',
+      relatedEntityId: teamId
+    });
+
+    res.status(201).json(newMember);
+  } catch (error) {
+    console.error(`Add member to team ${teamId} error:`, error);
+    res.status(500).json({ error: 'Could not add member to team.' });
+  }
+});
+
+// Remove member from team
+app.delete('/teams/:id/members/:userId', authenticateToken, async (req: Request, res: Response) => {
+  const authenticatedReq = req as AuthenticatedRequest;
+  const teamId = parseInt(authenticatedReq.params.id);
+  const userId = parseInt(authenticatedReq.params.userId);
+  const requesterId = authenticatedReq.user?.userId;
+
+  if (isNaN(teamId) || isNaN(userId) || !requesterId) {
+    return res.status(400).json({ error: 'Team ID and user ID are required.' });
+  }
+
+  try {
+    // Check if requester is team captain
+    const requesterMembership = await prisma.teamMember.findFirst({
+      where: {
+        teamId,
+        userId: requesterId,
+        role: 'CAPTAIN'
+      }
+    });
+
+    if (!requesterMembership) {
+      return res.status(403).json({ error: 'Only team captain can remove members.' });
+    }
+
+    // Check if trying to remove the captain
+    const targetMembership = await prisma.teamMember.findUnique({
+      where: {
+        teamId_userId: {
+          teamId,
+          userId
+        }
+      }
+    });
+
+    if (!targetMembership) {
+      return res.status(404).json({ error: 'Member not found in team.' });
+    }
+
+    if (targetMembership.role === 'CAPTAIN') {
+      return res.status(400).json({ error: 'Cannot remove team captain.' });
+    }
+
+    // Remove member
+    await prisma.teamMember.delete({
+      where: {
+        teamId_userId: {
+          teamId,
+          userId
+        }
+      }
+    });
+
+    // Notify the removed member
+    await createNotification({
+      userId,
+      message: `You have been removed from team "${(await prisma.team.findUnique({ where: { id: teamId } }))?.name}"`,
+      type: 'GENERAL',
+      relatedEntityType: 'Team',
+      relatedEntityId: teamId
+    });
+
+    res.status(204).send();
+  } catch (error) {
+    console.error(`Remove member from team ${teamId} error:`, error);
+    res.status(500).json({ error: 'Could not remove member from team.' });
+  }
+});
+
+// Get user's teams
+app.get('/teams/my', authenticateToken, async (req: Request, res: Response) => {
+  const authenticatedReq = req as AuthenticatedRequest;
+  const userId = authenticatedReq.user?.userId;
+
+  if (!userId) {
+    return res.status(403).json({ error: 'User ID not found in token.' });
+  }
+
+  try {
+    const userTeams = await prisma.team.findMany({
+      where: {
+        members: {
+          some: {
+            userId
+          }
+        }
+      },
+      include: {
+        members: {
+          include: {
+            user: {
+              select: {
+                id: true,
+                name: true,
+                email: true
+              }
+            }
+          }
+        },
+        createdBy: {
+          select: {
+            id: true,
+            name: true
+          }
+        }
+      }
+    });
+    res.json(userTeams);
+  } catch (error) {
+    console.error('Get user teams error:', error);
+    res.status(500).json({ error: 'Could not retrieve user teams.' });
   }
 });
 
