@@ -56,6 +56,23 @@
   box-shadow: 0 0 0 2px rgba(0, 77, 0, 0.1);
 }
 
+.select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+  box-sizing: border-box;
+  background-color: white;
+  cursor: pointer;
+}
+
+.select:focus {
+  border-color: #004d00;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 77, 0, 0.1);
+}
+
 .registerButton {
   background: #c8102e; /* Texas Red */
   color: #fff;
