@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { env } from '@/config/env';
 import styles from './header.module.css';
+import api from '@/lib/api';
 
 interface User {
   name: string;
@@ -18,13 +19,13 @@ export default function Header() {
       const token = localStorage.getItem(env.auth.tokenKey);
       if (token) {
         try {
-          const response = await fetch('http://localhost:3000/auth/user-details', {
+          const response = await api.get<User>('/auth/user-details', {
             headers: {
               'Authorization': `Bearer ${token}`,
             },
           });
-          if (response.ok) {
-            const userData = await response.json();
+          if (response.data) {
+            const userData = response.data;
             setUser(userData);
           } else {
             console.error('Failed to fetch user details');

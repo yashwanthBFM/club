@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './register.module.css';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import api from '@/lib/api';
 
 interface User {
   name: string;
@@ -35,13 +36,13 @@ export default function RegisterPage() {
       return;
     }
     try {
-      const response = await fetch('http://localhost:3000/auth/register', {
+      const response = await api.post('/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, name: `${firstName} ${lastName}` }),
       });
-      const data = await response.json();
-      if (response.ok) {
+      const data = response.data;
+      if (data) {
         setOtpSent(true);
         alert(data.message);
       } else {
@@ -55,13 +56,13 @@ export default function RegisterPage() {
   const handleVerifyOtp = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/auth/verify-otp', {
+      const response = await api.post('/auth/verify-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, otp, type: 'REGISTRATION' }),
       });
-      const data = await response.json();
-      if (response.ok) {
+      const data = response.data;
+      if (data) {
         alert(data.message);
         localStorage.setItem('user', JSON.stringify({ name: `${firstName} ${lastName}`, email }));
         setUser({ name: `${firstName} ${lastName}`, email });

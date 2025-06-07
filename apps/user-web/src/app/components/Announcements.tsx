@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import styles from './Announcements.module.css';
+import api from '@/lib/api';
 
 interface Announcement {
   id: number;
@@ -28,11 +29,8 @@ export default function Announcements() {
   useEffect(() => {
     const fetchAnnouncements = async () => {
       try {
-        const response = await fetch('http://localhost:3000/announcements');
-        if (!response.ok) {
-          throw new Error('Failed to fetch announcements');
-        }
-        const data: AnnouncementsResponse = await response.json();
+        const response = await api.get<AnnouncementsResponse>('/announcements');
+        const data: AnnouncementsResponse = response.data;
         setAnnouncements(data.announcements);
         setMessage(data.message);
       } catch (err) {
