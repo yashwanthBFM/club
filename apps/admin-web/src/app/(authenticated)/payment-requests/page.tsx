@@ -54,13 +54,13 @@ export default function PaymentRequestsPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Payment Requests</h1>
-        <Button onClick={() => setIsCreateDialogOpen(true)}>Create Payment Request</Button>
+      <div className="flex justify-between items-center mb-6 text-white">
+        <h1 className="text-2xl font-bold text-white">Payment Requests</h1>
+        <Button className="bg-gray-800 text-white hover:bg-gray-700" onClick={() => setIsCreateDialogOpen(true)}>Create Payment Request</Button>
       </div>
 
       <Table>
-        <TableHeader>
+        <TableHeader className="text-white bg-transparent">
           <TableRow>
             <TableHead>Target User</TableHead>
             <TableHead>Description</TableHead>

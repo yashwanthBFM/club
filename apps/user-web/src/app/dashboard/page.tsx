@@ -223,7 +223,7 @@ export default function Dashboard() {
         <section className={styles.section}>
           <h2>Notifications</h2>
           <div className={styles.cards}>
-            {notifications && notifications?.map(notification => (
+            {notifications && notifications.map(notification => (
               <div key={notification.id} className={`${styles.card} ${!notification.read ? styles.unread : ''}`}>
                 <h3>{notification.title}</h3>
                 <p>{notification.message}</p>
@@ -250,12 +250,8 @@ export default function Dashboard() {
                     Pay Now
                   </button>
                 )}
-                {payment.status === 'paid' && (
-                  <p className={styles.status}>Paid</p>
-                )}
-                {payment.status === 'overdue' && (
-                  <p className={styles.status}>Overdue</p>
-                )}
+                {payment.status === 'paid' && <p className={styles.status}>Paid</p>}
+                {payment.status === 'overdue' && <p className={styles.status}>Overdue</p>}
               </div>
             ))}
           </div>
@@ -265,7 +261,7 @@ export default function Dashboard() {
         <section className={styles.section}>
           <h2>Upcoming Games</h2>
           <div className={styles.cards}>
-            {games.map((game) => (
+            {games.map(game => (
               <div key={game.id} className={styles.card}>
                 <h3>{game.title}</h3>
                 <p>{game.description}</p>
@@ -287,4 +283,4 @@ export default function Dashboard() {
       </div>
     </div>
   );
-} 
+}

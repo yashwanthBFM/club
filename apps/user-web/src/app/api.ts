@@ -1,7 +1,7 @@
 import api from '@/lib/api';
 import { env } from '@/config/env';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://https://club-m1gy.onrender.com';
 
 export const createGame = async (gameData: {
   title: string;

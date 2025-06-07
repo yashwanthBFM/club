@@ -3,7 +3,7 @@
 import { useAuth } from '@/contexts/AuthContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 export default function AuthenticatedLayout({
   children,
@@ -14,9 +14,14 @@ export default function AuthenticatedLayout({
   const pathname = usePathname();
   const [drawerOpen, setDrawerOpen] = useState(false);
 
-  if (!user) {
-    return null;
-  }
+  useEffect(() => {
+    const font = document.createElement('link');
+    font.href = 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap';
+    font.rel = 'stylesheet';
+    document.head.appendChild(font);
+  }, []);
+
+  if (!user) return null;
 
   const navLinks = [
     { href: '/dashboard', label: 'Dashboard' },
@@ -27,89 +32,96 @@ export default function AuthenticatedLayout({
   ];
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <nav className="bg-white shadow-sm w-full">
-        <div className="mx-auto px-2 sm:px-4 lg:px-8 max-w-7xl">
-          <div className="flex flex-wrap justify-between h-16 items-center">
-            <div className="flex items-center flex-shrink-0">
-              <Link href="/dashboard" className="text-xl font-bold text-gray-800">
-                Admin Dashboard
+    <div className="min-h-screen bg-gray-100 font-['Bebas_Neue']"
+     style={{
+    backgroundColor: '#3d4041'
+  }}
+  >
+      <nav className="sticky top-0 z-50 bg-[rgba(0,0,0,0.88)] backdrop-blur-sm text-white px-4 py-3 shadow-md">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          {/* Left: Logo and Title */}
+          <div className="flex items-center gap-4">
+            <span className="text-xl font-bold">RENEGADES FC</span>
+            <Link href="/dashboard" className="text-lg hover:text-cyan-400 transition-all duration-200">
+              Admin Dashboard
+            </Link>
+          </div>
+
+          {/* Center: Nav Links (Desktop only) */}
+          <div className="hidden sm:flex gap-6 text-lg">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`transition-colors ${
+                  pathname === link.href ? 'text-cyan-300' : 'hover:text-cyan-400'
+                }`}
+              >
+                {link.label}
               </Link>
-            </div>
-            {/* Hamburger for mobile */}
+            ))}
+          </div>
+
+          {/* Right: Email + Logout */}
+          <div className="hidden sm:flex items-center gap-4 text-sm">
+            <span>{user.email}</span>
             <button
-              className="sm:hidden p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              onClick={() => setDrawerOpen(true)}
-              aria-label="Open navigation menu"
+              onClick={logout}
+              className="hover:text-cyan-400 transition-colors duration-200"
             >
-              <svg className="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+              Logout
             </button>
-            {/* Desktop nav */}
-            <div className="flex-1 items-center justify-center sm:justify-start hidden sm:flex">
-              <div className="flex space-x-4">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                      pathname === link.href
-                        ? 'border-indigo-500 text-gray-900'
-                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </div>
+          </div>
+
+          {/* Hamburger (Mobile only) */}
+          <div className="sm:hidden flex items-center">
+            <button
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Open menu"
+              className="flex flex-col gap-1 p-2"
+            >
+              <span className="w-6 h-[3px] bg-white rounded-sm" />
+              <span className="w-6 h-[3px] bg-white rounded-sm" />
+              <span className="w-6 h-[3px] bg-white rounded-sm" />
+            </button>
+          </div>
+        </div>
+
+        {/* Mobile Drawer */}
+        {drawerOpen && (
+          <div className="sm:hidden fixed inset-0 z-50 bg-black bg-opacity-80 backdrop-blur-md p-6">
+            <div className="flex justify-between items-center mb-8">
+              <h2 className="text-white text-2xl">RENEGADES FC</h2>
+              <button onClick={() => setDrawerOpen(false)} className="text-white text-2xl">
+                ×
+              </button>
             </div>
-            <div className="flex items-center">
-              <span className="text-sm text-gray-700 mr-4">{user.email}</span>
+            <nav className="flex flex-col gap-4 text-white text-lg">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  onClick={() => setDrawerOpen(false)}
+                  className={`transition-colors duration-200 ${
+                    pathname === link.href ? 'text-cyan-300' : 'hover:text-cyan-400'
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <hr className="border-gray-600 my-4" />
+              <span className="text-sm text-gray-300">{user.email}</span>
               <button
-                onClick={logout}
-                className="text-sm text-gray-700 hover:text-gray-900"
+                onClick={() => {
+                  logout();
+                  setDrawerOpen(false);
+                }}
+                className="mt-2 text-left hover:text-cyan-400 transition-colors duration-200"
               >
                 Logout
               </button>
-            </div>
+            </nav>
           </div>
-        </div>
-        {/* Side Drawer for mobile */}
-        {drawerOpen && (
-          <>
-            <div
-              className="fixed inset-0 bg-black bg-opacity-30 z-40"
-              onClick={() => setDrawerOpen(false)}
-            />
-            <div className="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 flex flex-col p-6 transition-transform duration-300">
-              <button
-                className="self-end mb-6 p-2 rounded focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                onClick={() => setDrawerOpen(false)}
-                aria-label="Close navigation menu"
-              >
-                <svg className="h-6 w-6 text-gray-800" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-              <nav className="flex flex-col space-y-4">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    className={`text-base font-medium ${
-                      pathname === link.href
-                        ? 'text-indigo-600 font-semibold'
-                        : 'text-gray-700 hover:text-indigo-600'
-                    }`}
-                    onClick={() => setDrawerOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-              </nav>
-            </div>
-          </>
         )}
       </nav>
       <main className="w-full px-2 sm:px-6 lg:px-8 py-6 mx-auto max-w-7xl">

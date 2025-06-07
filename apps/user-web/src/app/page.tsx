@@ -3,9 +3,16 @@
 import Link from 'next/link';
 import styles from './page.module.css';
 import Announcements from './components/Announcements';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { env } from '@/config/env';
 import { fetchGames } from './api';
+import Navbar from './Navbar';
+import ImageCarousel from './ImageCarousel';
+import Info from './Info';
+import gsap from 'gsap';
+import SplitText from 'gsap/SplitText';
+
+
 
 interface Game {
   id: number;
@@ -20,6 +27,10 @@ interface Game {
 export default function HomePage() {
   const [games, setGames] = useState<Game[]>([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const heroRef = useRef<HTMLHeadingElement | null>(null);
+  const subtitleRef = useRef<HTMLParagraphElement | null>(null);
+
+
 
   useEffect(() => {
     const token = localStorage.getItem(env.auth.tokenKey);
@@ -33,7 +44,57 @@ export default function HomePage() {
       }
     };
     loadGames();
-  }, []);
+    gsap.registerPlugin(SplitText);
+
+  document.fonts.ready.then(() => {
+  // Animate Hero Title
+  if (heroRef.current) {
+    gsap.set(heroRef.current, { opacity: 1 });
+
+    SplitText.create(heroRef.current, {
+      type: 'words,lines',
+      linesClass: 'line',
+      autoSplit: true,
+      mask: 'lines',
+      onSplit: (self) => {
+        gsap.from(self.lines, {
+          duration: 0.9,
+          yPercent: 100,
+          opacity: 0,
+          stagger: 0.1,
+          ease: 'expo.out',
+        });
+      },
+    });
+  }
+
+  // Animate Hero Subtitle
+  if (subtitleRef.current) {
+    gsap.set(subtitleRef.current, { opacity: 1 });
+
+    SplitText.create(subtitleRef.current, {
+      type: 'words,lines',
+      linesClass: 'line',
+      autoSplit: true,
+      mask: 'lines',
+      onSplit: (self) => {
+        gsap.from(self.lines, {
+          duration: 0.9,
+          yPercent: 100,
+          opacity: 0,
+          stagger: 0.1,
+          ease: 'expo.out',
+          delay: 0.4, // slightly after title
+        });
+      },
+    });
+  }
+});
+
+
+  
+}, []);
+    
 
   const handleRegister = (gameId: number) => {
     // TODO: Implement registration logic (API call)
@@ -41,14 +102,20 @@ export default function HomePage() {
   };
 
   return (
+    <>
+    <Navbar />
     <div className={styles.parallaxContainer}>
       {/* Hero Section */}
-      <section className={styles.heroSection}>
+      <section id = "/" className={styles.heroSection}>
         <div className={styles.heroContent}>
-          <h1 className={styles.heroTitle}>Welcome to Football Club</h1>
-          <p className={styles.heroSubtitle}>
-            Join us for exciting matches, professional training, and a vibrant community
-          </p>
+          <h1 ref={heroRef} className={`${styles.heroTitle} split`}>
+  Welcome to Football Club
+</h1>
+
+          <p ref={subtitleRef} className={`${styles.heroSubtitle} split`}>
+  Join us for exciting matches, professional training, and a vibrant community
+</p>
+
           <div>
             <Link href="/register" className={`${styles.button} ${styles.primaryButton}`}>
               Join Now
@@ -60,11 +127,13 @@ export default function HomePage() {
         </div>
       </section>
 
+      
+
       {/* Announcements Section */}
-      <Announcements />
+      {/*<Announcements />*/}
 
       {/* About Section */}
-      <section className={styles.aboutSection}>
+      <section id = "about" className={styles.aboutSection}>
         <div className={styles.aboutContent}>
           <h2 className={styles.aboutTitle}>Why Choose Us?</h2>
           <div className={styles.featuresGrid}>
@@ -89,9 +158,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      
+      <Info /> 
 
       {/* Events Section */}
-      <section className={styles.eventsSection}>
+      <section id = "events" className={styles.eventsSection}>
         <div className={styles.eventsContent}>
           <h2 className={styles.eventsTitle}>Upcoming Events</h2>
           <div className={styles.eventsGrid}>
@@ -129,9 +200,11 @@ export default function HomePage() {
         </div>
       </section>
 
+      <ImageCarousel />
+
       {/* Join Section */}
-      <section className={styles.joinSection}>
-        <div className={styles.joinContent}>
+      <section id = "join" className={styles.joinSection}>
+        <div className={styles.eventCard2}>
           <h2 className={styles.joinTitle}>Become Part of Our Team</h2>
           <p className={styles.joinDescription}>
             Whether you're a seasoned player or just starting out, we welcome everyone to join our football family.
@@ -143,7 +216,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className={styles.gamesSection}>
+      
+
+      {/*<section className={styles.gamesSection}>
         <div className={styles.gamesContent}>
           <h2 className={styles.gamesTitle}>Upcoming Games</h2>
           <ul>
@@ -164,7 +239,11 @@ export default function HomePage() {
             ))}
           </ul>
         </div>
-      </section>
+      </section>*/}
+
+
+
     </div>
+    </>
   );
 }

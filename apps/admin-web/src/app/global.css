@@ -1,6 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
 
 html {
   -webkit-text-size-adjust: 100%;
@@ -69,6 +71,17 @@ pre {
 .wrapper {
   width: 100%;
 }
+.bebas-heading {
+  font-family: 'Russo One', sans-serif;
+  letter-spacing: 0.25px;
+  text-transform: uppercase;
+  color: #fff;
+  font-weight: 900; /* Increased weight */
+  font-size: 1.5rem; /* Slightly larger */
+  text-align: center; /* Center the text */
+  margin: 1rem 0; /* Optional spacing */
+}
+
 .container {
   margin-left: auto;
   margin-right: auto;
