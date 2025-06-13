@@ -1,0 +1,119 @@
+
+.fieldContainer {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-image: url('/football_field.jpg'); /* Make sure this image exists in your public folder */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.containerWrapper{
+  background: linear-gradient(145deg, #42717a, #00FF00); /* customize as needed */
+  min-height: 100vh;
+}
+.player {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.playerImageWrapper {
+  width: 49px;
+  height: 49px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #00d1ff;
+  box-shadow: 0 0 10px rgba(0, 209, 255, 0.6);
+  animation: pulse 2s infinite;
+  background-color: #001f2f;
+}
+
+.playerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+
+.circle {
+  width: 24px;
+  height: 24px;
+  background-color: #00d1ff;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 10px rgba(0, 209, 255, 0.6);
+}
+
+.name {
+  margin-top: 6px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: white;
+  text-shadow: 0 0 3px black;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.tooltip {
+  margin-top: 4px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+
+@media (min-width: 768px) {
+  .fieldContainer {
+    /* Adjust for large screen layout, e.g. rotate, expand etc */
+    position: relative;
+    height: 150vh;
+    background-size: 50% 100%;
+    background-position: center;
+    transform-origin: center center;
+  }
+
+  .player {
+    /* Counter rotate each player */
+    transform: translate(-50%, -50%);
+  }
+
+  .name {
+    font-size: 1rem;
+  }
+
+  .playerImageWrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .circle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .tooltip {
+    font-size: 0.8rem;
+  }
+}

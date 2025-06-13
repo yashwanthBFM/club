@@ -1,17 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 .navbar {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
-  right: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.9);
-  padding: 1rem 2rem;
+  height: 55px;
+  background: rgba(0, 0, 0, 0.876);
+  backdrop-filter: blur(0.5px);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  backdrop-filter: blur(10px);
+  padding: 0 2rem;
   font-family: 'Bebas Neue', sans-serif;
   transition: all 0.3s ease-in-out;
 }
@@ -62,18 +61,6 @@
   height: 5px;
   background: #fff;
   border-radius: 3px;
-}
-
-.navHidden {
-  opacity: 0;
-  transform: translateY(-100%);
-  transition: all 0.4s ease-out;
-}
-
-.navVisible {
-  opacity: 1;
-  transform: translateY(0);
-  transition: all 0.4s ease-out;
 }
 
 /* Responsive for mobile */

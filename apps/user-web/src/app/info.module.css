@@ -1,12 +1,28 @@
 @import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 .infoSection {
-  background-image: url('/10.jpg');
+  position: relative;
+  background-image: url('/4.png');
+  background-size: cover;
   display: flex;
   flex-direction: column;
   gap: 4rem;
   padding: 4rem 2rem;
   overflow: hidden;
+  z-index: 0; /* Ensure the blur stays behind the content */
+}
+
+.infoSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(8px); /* Adjust the blur level */
+  background-color: rgba(0, 0, 0, 0.3); /* Optional dark tint */
+  z-index: -1;
 }
 
 .infoBlockGrid {
@@ -17,15 +33,32 @@
   text-align: center;
 }
 
+.infoTitle {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem;
+  text-align: center;
+  color: #ffffff;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
 .playerCard {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 220px;
+  margin: 0 auto;
+  overflow: hidden;
 }
 
 .playerImage {
-  width: 200px;
-  height: 200px;
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  aspect-ratio: 1/1;
   object-fit: cover;
   border-radius: 50%;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
@@ -90,12 +123,61 @@
   color: #dddddd;
 }
 
-.image {
+.coachImage {
   width: 300px;
   height: 300px;
   object-fit: cover;
   border-radius: 50%;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+}
+
+.galleryButton {
+  margin-top: 1.5rem;
+  display: inline-block;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  font-size: 1rem;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-weight: 500;
+  max-width: fit-content;
+}
+
+.galleryButton:hover {
+  background: linear-gradient(135deg, #2786af, #175c72, #099cdb);
+  transform: translateY(-3px);
+}
+
+.teamButtonWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 300px;
+  margin: 2rem auto 0;
+}
+
+.teamButton {
+  display: inline-block;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  color: white;
+  font-size: 1.1rem;
+  padding: 0.8rem 1.6rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+}
+
+.teamButton:hover {
+  background: linear-gradient(135deg, #2786af, #175c72, #099cdb);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 /* Responsive */
@@ -105,7 +187,7 @@
     flex-direction: column;
   }
 
-  .image {
+  .coachImage {
     width: 200px;
     height: 200px;
   }
@@ -121,4 +203,50 @@
   .textContent p {
     font-size: 1rem;
   }
+  .infoBlockGrid {
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    padding: 1rem 0.5rem;
+    gap: 1rem;
+  }
+
+  .playerImage {
+    max-width: 140px;
+  }
+
+  .playerName {
+    font-size: 1rem;
+  }
 }
+
+@media (max-width: 480px) {
+  .infoBlockGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.parallaxTeamSection {
+  background-image: url('/4.png'); /* Use a relevant team/club image */
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  position: relative;
+  z-index: 0;
+}
+
+.parallaxTeamSection::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(20, 20, 30, 0.65);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.parallaxTeamSection > * {
+  position: relative;
+  z-index: 2;
+}
+

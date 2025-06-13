@@ -11,8 +11,12 @@ import ImageCarousel from './ImageCarousel';
 import Info from './Info';
 import gsap from 'gsap';
 import SplitText from 'gsap/SplitText';
+import Footer from './footer';
+import About from './About';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { FaDumbbell, FaUsers, FaMedal } from "react-icons/fa";
 
-
+gsap.registerPlugin(ScrollTrigger);
 
 interface Game {
   id: number;
@@ -46,26 +50,32 @@ export default function HomePage() {
     loadGames();
     gsap.registerPlugin(SplitText);
 
-  document.fonts.ready.then(() => {
-  // Animate Hero Title
-  if (heroRef.current) {
+    document.fonts.ready.then(() => {
+      // Animate Hero Title
+    if (heroRef.current) {
     gsap.set(heroRef.current, { opacity: 1 });
 
     SplitText.create(heroRef.current, {
-      type: 'words,lines',
+      type: 'lines',
       linesClass: 'line',
       autoSplit: true,
       mask: 'lines',
       onSplit: (self) => {
-        gsap.from(self.lines, {
-          duration: 0.9,
-          yPercent: 100,
-          opacity: 0,
-          stagger: 0.1,
-          ease: 'expo.out',
-        });
-      },
-    });
+      gsap.fromTo(
+      self.lines,
+      { opacity: 0, filter: 'blur(10px)', y: 40 },
+      {
+        opacity: 1,
+        filter: 'blur(0px)',
+        y: 0,
+        duration: 1.2,
+        ease: 'power4.out',
+        stagger: 0.15,
+      }
+      );
+   },
+  });
+
   }
 
   // Animate Hero Subtitle
@@ -73,23 +83,82 @@ export default function HomePage() {
     gsap.set(subtitleRef.current, { opacity: 1 });
 
     SplitText.create(subtitleRef.current, {
-      type: 'words,lines',
-      linesClass: 'line',
-      autoSplit: true,
-      mask: 'lines',
-      onSplit: (self) => {
-        gsap.from(self.lines, {
-          duration: 0.9,
-          yPercent: 100,
-          opacity: 0,
-          stagger: 0.1,
-          ease: 'expo.out',
-          delay: 0.4, // slightly after title
-        });
+    type: 'lines',
+    linesClass: 'line',
+    autoSplit: true,
+    mask: 'lines',
+    onSplit: (self) => {
+    gsap.fromTo(
+      self.lines,
+      { opacity: 0, filter: 'blur(10px)', y: 40 },
+      {
+        opacity: 1,
+        filter: 'blur(0px)',
+        y: 0,
+        duration: 1.2,
+        ease: 'power4.out',
+        stagger: 0.15,
+        delay: 0.4, // delayed to follow hero title
+      }
+    );
+    },
+  });
+  }
+
+  // Animate feature cards with staggered slide-ins
+  const features = gsap.utils.toArray('[data-card-type="feature"]') as HTMLElement[];
+
+  features.forEach((card, i) => {
+    const direction = i === 0 ? -100 : i === 1 ? 0 : 100;
+
+    gsap.from(card, {
+      x: direction,
+      y: i === 1 ? 50 : 0,
+      opacity: 0,
+      duration: 1.8,
+      ease: 'power3.out',
+      scrollTrigger: {
+        trigger: card,
+        start: 'top 85%',
       },
     });
-  }
-});
+  });
+
+  // Animate event cards
+  const events = gsap.utils.toArray('[data-card-type="event"]') as HTMLElement[];
+  events.forEach((card, index) => {
+      let fromX = 0;
+      if (index % 3 === 0) fromX = -100;
+      else if (index % 3 === 1) fromX = 5;
+      else fromX = 100;
+
+      gsap.from(card, {
+        x: fromX,
+        opacity: 0,
+      duration: 2,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 85%',
+        },
+      });
+    });
+
+  // Animate coach cards with staggered fade-in and upward slide
+  const coaches = gsap.utils.toArray('[data-card-type="coach"]') as HTMLElement[];
+  gsap.from(coaches, {
+    opacity: 0,
+    y: 40,
+    duration: 2.2,
+    stagger: 0.4,
+    ease: 'power3.out',
+    scrollTrigger: {
+      trigger: '#meet',
+      start: 'top 85%',
+    },
+  });
+
+  });
 
 
   
@@ -106,143 +175,123 @@ export default function HomePage() {
     <Navbar />
     <div className={styles.parallaxContainer}>
       {/* Hero Section */}
-      <section id = "/" className={styles.heroSection}>
-        <div className={styles.heroContent}>
-          <h1 ref={heroRef} className={`${styles.heroTitle} split`}>
-  Welcome to Football Club
+      <section id="/" className={styles.heroSection}>
+        <div className={styles.heroZoomBackground}></div>
+        <div className={`${styles.heroContent} ${styles.fadeIn}`}>
+          <h1 ref={heroRef} className={`${styles.heroTitle} ${styles.fadeIn} split`}>
+            RENEGADES FC
 </h1>
-
-          <p ref={subtitleRef} className={`${styles.heroSubtitle} split`}>
-  Join us for exciting matches, professional training, and a vibrant community
-</p>
-
-          <div>
-            <Link href="/register" className={`${styles.button} ${styles.primaryButton}`}>
+          <div className={`${styles.heroContentWrapper} ${styles.fadeIn}`}>
+            <p ref={subtitleRef} className={`${styles.heroSubtitle} ${styles.fadeIn} split`}>
+              Kick start your football journey
+            </p>
+            <div className={styles.buttonGroup}>
+              <Link href="/register" className={`${styles.button} ${styles.primaryButton} ${styles.fadeIn}`}>
               Join Now
             </Link>
-            <Link href="/login" className={`${styles.button} ${styles.secondaryButton}`}>
+              <Link href="/login" className={`${styles.button} ${styles.secondaryButton} ${styles.fadeIn}`}>
               Sign In
             </Link>
+            </div>
           </div>
         </div>
       </section>
 
-      
+      <section id="about">
+        <About />
+      </section>
 
-      {/* Announcements Section */}
-      {/*<Announcements />*/}
-
-      {/* About Section */}
-      <section id = "about" className={styles.aboutSection}>
+      <section id="info" className={styles.aboutSection}>
         <div className={styles.aboutContent}>
           <h2 className={styles.aboutTitle}>Why Choose Us?</h2>
-          <div className={styles.featuresGrid}>
-            <div className={styles.featureCard}>
+          <div className={styles.whyUsFlex}>
+            <div className={styles.whyUsCard} data-card-type="feature" data-card-index="0">
+              <div className={styles.accentBar}></div>
+              <FaDumbbell className={styles.whyUsIcon} />
               <h3 className={styles.featureTitle}>Professional Training</h3>
               <p className={styles.featureDescription}>
-                Train with experienced coaches and improve your skills with our state-of-the-art facilities
+                Sharpen your game with expert football coaching designed to elevate every aspect of your performance. Train with former players and certified coaches who bring tactical depth and on-field experience to every drill. Our state-of-the-art facilities feature top-tier pitches, advanced fitness gear, and performance tracking tools to ensure you grow faster, stronger, and smarter. Whether you're aiming to make the team or play professionally, this is where your next level begins.
               </p>
             </div>
-            <div className={styles.featureCard}>
+            <div className={styles.whyUsCard} data-card-type="feature" data-card-index="1">
+              <div className={styles.accentBar}></div>
+              <FaUsers className={styles.whyUsIcon} />
               <h3 className={styles.featureTitle}>Community Focus</h3>
               <p className={styles.featureDescription}>
-                Be part of a supportive community that shares your passion for football
+                Join a vibrant and supportive community where every player, coach, and fan shares a deep passion for football. Beyond the pitch, we foster strong bonds through team spirit, mutual respect, and shared victories. Whether you're scoring goals or cheering from the sidelines, you'll always have a place in this growing football family.
               </p>
             </div>
-            <div className={styles.featureCard}>
+            <div className={styles.whyUsCard} data-card-type="feature" data-card-index="2">
+              <div className={styles.accentBar}></div>
+              <FaMedal className={styles.whyUsIcon} />
               <h3 className={styles.featureTitle}>Excellence</h3>
               <p className={styles.featureDescription}>
-                Compete in leagues and tournaments while maintaining the highest standards of sportsmanship
+                Strive for greatness on and off the pitch. Our players compete in top-tier leagues and tournaments, constantly challenging themselves against the best. We believe true excellence isn't just about winning — it's about playing with integrity, respecting the game, and upholding the highest standards of sportsmanship in every match and moment.
               </p>
             </div>
           </div>
         </div>
       </section>
       
+      <section id="meet">
       <Info /> 
+      </section>
 
-      {/* Events Section */}
-      <section id = "events" className={styles.eventsSection}>
+      {/*<section id="events" className={styles.eventsSection}>
         <div className={styles.eventsContent}>
           <h2 className={styles.eventsTitle}>Upcoming Events</h2>
           <div className={styles.eventsGrid}>
-            <div className={styles.eventCard}>
+            <div className={styles.eventCard} data-card-type="event">
               <h3 className={styles.eventTitle}>Weekend Tournament</h3>
               <p className={styles.eventDate}>June 15-16, 2024</p>
               <p className={styles.eventDescription}>
                 Join us for an exciting weekend of competitive matches and team building
               </p>
-              <Link href="/events" className={`${styles.button} ${styles.primaryButton}`}>
-                Learn More
+              <Link href="/login" className={`${styles.button} ${styles.primaryButton}`}>
+                Login Now
               </Link>
             </div>
-            <div className={styles.eventCard}>
+            <div className={styles.eventCard} data-card-type="event">
               <h3 className={styles.eventTitle}>Summer Training Camp</h3>
               <p className={styles.eventDate}>July 1-14, 2024</p>
               <p className={styles.eventDescription}>
                 Intensive training program for players looking to take their game to the next level
               </p>
-              <Link href="/events" className={`${styles.button} ${styles.primaryButton}`}>
-                Learn More
+              <Link href="/login" className={`${styles.button} ${styles.primaryButton}`}>
+                Login Now
               </Link>
             </div>
-            <div className={styles.eventCard}>
+            <div className={styles.eventCard} data-card-type="event">
               <h3 className={styles.eventTitle}>Community Match Day</h3>
               <p className={styles.eventDate}>Every Saturday</p>
               <p className={styles.eventDescription}>
-                Regular friendly matches open to all members of our community
+                Regular friendly matches open to all members of our community.
               </p>
-              <Link href="/events" className={`${styles.button} ${styles.primaryButton}`}>
-                Learn More
+              <Link href="/login" className={`${styles.button} ${styles.primaryButton}`}>
+                Login Now
               </Link>
             </div>
           </div>
         </div>
+      </section>*/}
+
+      <section id="gallery" className={styles.gallerySection}>
+      <ImageCarousel />
       </section>
 
-      <ImageCarousel />
-
-      {/* Join Section */}
-      <section id = "join" className={styles.joinSection}>
-        <div className={styles.eventCard2}>
-          <h2 className={styles.joinTitle}>Become Part of Our Team</h2>
+      <section id="join" className={styles.joinSection}>
+        <h2 className={styles.joinTitle}>Ready to Join our team?</h2>
           <p className={styles.joinDescription}>
-            Whether you're a seasoned player or just starting out, we welcome everyone to join our football family.
-            Experience the thrill of the game and make lasting friendships.
+            Take the first step toward developing your skills and becoming part of our winning tradition.
           </p>
           <Link href="/register" className={`${styles.button} ${styles.primaryButton}`}>
             Join Now
           </Link>
-        </div>
       </section>
 
-      
-
-      {/*<section className={styles.gamesSection}>
-        <div className={styles.gamesContent}>
-          <h2 className={styles.gamesTitle}>Upcoming Games</h2>
-          <ul>
-            {games.map((game) => (
-              <li key={game.id} style={{ marginBottom: '2rem' }}>
-                <h3>{game.title}</h3>
-                <p>{game.description}</p>
-                <p>Max Participants: {game.maxParticipants}</p>
-                <p>Start Date: {new Date(game.startDate).toLocaleString()}</p>
-                <p>End Date: {new Date(game.endDate).toLocaleString()}</p>
-                <p>Location: {game.location}</p>
-                {isLoggedIn ? (
-                  <button onClick={() => handleRegister(game.id)}>Register</button>
-                ) : (
-                  <p>Please log in to register for this game.</p>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-      </section>*/}
-
-
-
+      <section id="contact">
+        <Footer />
+      </section>
     </div>
     </>
   );

@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Russo+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.aboutSection {
+  background-color: #3d4440;
+  padding: 2rem 1rem;
+  color: #ffffff;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.imageContainer {
+  flex: 1;
+  min-width: 300px;
+  display: flex;
+  justify-content: center;
+}
+
+.image {
+  border-radius: 1rem;
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  object-fit: cover;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.textContainer {
+  flex: 1;
+  min-width: 300px;
+  max-width: 600px;
+}
+
+.heading {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #cce6ff;
+  font-weight: 500;
+  text-align: left;
+}
+
+.description {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+  color: #f0f8ff;
+  text-align: left;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  .imageContainer {
+    width: 100%;
+    margin-bottom: 1.5rem;
+  }
+
+  .image {
+    width: 85%;
+    max-width: 300px;
+  }
+
+  .textContainer {
+    padding: 0 1rem;
+  }
+
+  .heading,
+  .description {
+    text-align: center;
+  }
+
+  .heading {
+    font-size: 1.5rem;
+  }
+
+  .description {
+    font-size: 0.95rem;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 400px) {
+  .aboutSection {
+    padding: 1rem 0.2rem;
+  }
+
+  .container {
+    gap: 1.5rem;
+  }
+
+  .image {
+    width: 90%;
+    max-width: 250px;
+  }
+
+  .heading {
+    font-size: 1.25rem;
+  }
+
+  .description {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}
