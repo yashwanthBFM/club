@@ -3,6 +3,7 @@ import api from '@/lib/api';
 export interface PaymentRequest {
   id: number;
   targetUserId: number;
+  teamId?: number;
   createdById: number;
   description: string;
   amount: number;
@@ -14,6 +15,10 @@ export interface PaymentRequest {
     id: number;
     name: string;
     email: string;
+  };
+  team?: {
+    id: number;
+    name: string;
   };
   createdBy: {
     id: number;
@@ -27,7 +32,8 @@ export interface PaymentRequest {
 }
 
 export interface CreatePaymentRequestData {
-  targetUserId: number;
+  targetUserId?: number;
+  teamId?: number;
   description: string;
   amount: number;
   dueDate?: string;

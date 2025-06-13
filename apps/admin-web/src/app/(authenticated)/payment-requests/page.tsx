@@ -62,7 +62,7 @@ export default function PaymentRequestsPage() {
       <Table>
         <TableHeader className="text-white bg-transparent">
           <TableRow>
-            <TableHead>Target User</TableHead>
+            <TableHead>Target</TableHead>
             <TableHead>Description</TableHead>
             <TableHead>Amount</TableHead>
             <TableHead>Status</TableHead>
@@ -74,7 +74,13 @@ export default function PaymentRequestsPage() {
         <TableBody>
           {paymentRequests.map((request) => (
             <TableRow key={request.id}>
-              <TableCell>{request.targetUser.name}</TableCell>
+              <TableCell>
+                {request.team ? (
+                  <span className="text-blue-500">Team: {request.team.name}</span>
+                ) : (
+                  request.targetUser.name
+                )}
+              </TableCell>
               <TableCell>{request.description}</TableCell>
               <TableCell>${request.amount.toFixed(2)}</TableCell>
               <TableCell>
