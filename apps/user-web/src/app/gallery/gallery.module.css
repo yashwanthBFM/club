@@ -1,14 +1,17 @@
+.galleryPage {
+  min-height: 100vh;
+  background: linear-gradient(to bottom right, #111827, #1f2937);
+}
+
 .carouselSection {
   width: 100%;
   padding: 4rem 1rem;
   position: relative;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(to bottom right, #111827, #1f2937);
   align-items: center;
   overflow: hidden;
-  background:
-    linear-gradient(120deg, rgba(0,255,200,0.18) 0%, rgba(120,0,255,0.14) 100%),
+  background: linear-gradient(120deg, rgba(0,255,200,0.18) 0%, rgba(120,0,255,0.14) 100%),
     radial-gradient(ellipse at top left, #232526 0%, #414345 100%);
   background-color: #232526;
   background-image:
@@ -39,7 +42,6 @@
     background-position: 0% 50%, 0 0;
   }
 }
-
 
 .carouselTitle {
   font-family: 'Bebas Neue', sans-serif;
@@ -168,15 +170,9 @@
 
 /* Carousel Content Layout */
 .carouselContent {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  z-index: 2;
-  flex: 1;
 }
 
 .textBox {
@@ -210,17 +206,55 @@
 
 /* Carousel Wrapper */
 .carouselWrapper {
-  flex: 2;
-  background-color: #348484;
   position: relative;
-  max-width: 900px;
   width: 100%;
-  object-fit: cover;
-  overflow: hidden;
+  height: 600px;
   border-radius: 15px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
-  background: none !important;
-  background-color: transparent !important;
+  overflow: hidden;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.imageWrapper,
+.videoWrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.galleryImage {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.imageInfo,
+.videoInfo {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  color: white;
+}
+
+.imageInfo h3,
+.videoInfo h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.imageInfo p,
+.videoInfo p {
+  font-size: 1rem;
+  opacity: 0.9;
 }
 
 /* Grid and Media Styling */
@@ -246,15 +280,9 @@
   transform: scale(1.05);
 }
 
-.video {
-  width: 100%;
-  height: 500px;
-  object-fit: cover;
-  border-radius: 10px;
-}
-
 /* Navigation Arrows */
-.leftArrow, .rightArrow {
+.leftArrow,
+.rightArrow {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -277,36 +305,35 @@
   right: 1rem;
 }
 
-.leftArrow:hover, .rightArrow:hover {
+.leftArrow:hover,
+.rightArrow:hover {
   background-color: rgba(0, 0, 0, 0.9);
   transform: translateY(-50%) scale(1.1);
 }
 
 /* Dots Navigation */
 .dots {
+  position: absolute;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
   display: flex;
-  justify-content: center;
-  margin-top: 1.5rem;
   gap: 0.5rem;
+  z-index: 10;
 }
 
 .dot {
+  width: 10px;
   height: 10px;
-  width: 35px;
+  border-radius: 50%;
   background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 5px;
-  display: inline-block;
-  transition: all 0.3s ease;
   cursor: pointer;
-}
-
-.dot:hover {
-  background-color: rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease;
 }
 
 .dot.active {
-  background-color: rgba(255, 255, 255, 0.9);
-  transform: scale(1.1);
+  background-color: white;
+  transform: scale(1.2);
 }
 
 /* Section Indicators */
@@ -418,8 +445,27 @@
   .carouselPanel p {
     font-size: 1rem;
   }
-}
 
+  .carouselWrapper {
+    height: 400px;
+  }
+
+  .imageInfo h3,
+  .videoInfo h3 {
+    font-size: 1.2rem;
+  }
+
+  .imageInfo p,
+  .videoInfo p {
+    font-size: 0.9rem;
+  }
+
+  .leftArrow,
+  .rightArrow {
+    padding: 0.5rem 0.7rem;
+    font-size: 1.2rem;
+  }
+}
 
 @media screen and (max-width: 435px) {
   .carouselSection {
@@ -481,20 +527,22 @@
   }
 
   .carouselWrapper {
-    width: 100%;
+    height: 300px;
   }
 
-  .gridWrapper {
-    padding: 0.6rem;
-    gap: 0.6rem;
+  .imageInfo,
+  .videoInfo {
+    padding: 1rem;
   }
 
-  .gridImage {
-    height: 180px;
+  .imageInfo h3,
+  .videoInfo h3 {
+    font-size: 1rem;
   }
 
-  .video {
-    height: 220px;
+  .imageInfo p,
+  .videoInfo p {
+    font-size: 0.8rem;
   }
 
   .leftArrow,
@@ -622,6 +670,21 @@
     width: 10px;
     height: 10px;
   }
+}
+
+.loading,
+.error,
+.noMedia {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-size: 1.2rem;
+  color: white;
+}
+
+.error {
+  color: #ff4444;
 }
 
 

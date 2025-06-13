@@ -3,7 +3,11 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import styles from './carousel.module.css';
 
-export const slides = [
+type Slide = 
+  | { type: 'grid'; items: string[] }
+  | { type: 'video'; src: string };
+
+export const slides: Slide[] = [
   {
     type: 'grid',
     items: ['/1.png', '/2.png', '/3.png', '/4.png']
@@ -37,7 +41,7 @@ const ImageCarousel: React.FC = () => {
     );
   };
 
-  const currentSlide = slides[currentIndex];
+  const currentSlide = slides[currentIndex] as Slide;
 
   return (
     <section className={styles.carouselSection}>
