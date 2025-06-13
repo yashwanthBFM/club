@@ -4,7 +4,7 @@ import React, { useState, useRef } from 'react';
 import styles from './gallery.module.css';
 import Navbar2 from '../Navbar2';
 
-export const slides = [
+export const slides: Slide[] = [
   {
     type: 'grid',
     items: ['./1.png', './2.png', './3.png', './4.png']
@@ -21,10 +21,9 @@ export const slides = [
     type: 'video',
     src: './2.mp4'
   }
-
 ];
 
-export const slides2 = [
+export const slides2: Slide[] = [
   {
     type: 'grid',
     items: ['./1.png', './2.png', './3.png', './4.png']
@@ -49,9 +48,6 @@ export const slides2 = [
     type: 'video',
     src: './6.mp4'
   }
-
-
-
 ];
 
 export type Slide =
