@@ -1,0 +1,69 @@
+.footer {
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a, #262626);
+  color: #ffffff;
+  padding: 2rem 2rem;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.topSection {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  justify-content: center;
+}
+
+.developer {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #999; /* Same muted color as copyright text */
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .topSection {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: #eef1ee;
+}
+
+.contact,
+.socials {
+  text-align: center;
+}
+
+.contact h3,
+.socials h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  color: #ffcc00;
+}
+
+.icons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  font-size: 1.5rem;
+}
+
+.icons a {
+  color: #ffffff;
+  transition: transform 0.3s, color 0.3s;
+}
+
+.icons a:hover {
+  transform: scale(1.2);
+  color: #0d09e5;
+}
+
+.bottomSection {
+  margin-top: 2rem;
+  text-align: center;
+  font-size: 0.875rem;
+  opacity: 0.6;
+}

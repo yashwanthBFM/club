@@ -1,0 +1,191 @@
+.containerWrapper {
+  background: linear-gradient(145deg, #42717a, #00FF00); /* customize as needed */
+  min-height: 100vh;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+}
+
+.textBox {
+  flex: 0 0 300px; /* Fixed width of 300px */
+  background: rgba(0, 0, 0, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  color: white;
+  font-family: 'Bebas Neue', sans-serif;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  overflow-y:auto;
+  max-height: calc(100vh - 40px);
+}
+
+.textBox h2 {
+  color: #00d1ff;
+  margin-bottom: 15px;
+  font-size: 1.5rem;
+  text-shadow: 0 0 5px rgba(0, 209, 255, 0.6);
+}
+
+.textBox p {
+  margin-bottom: 10px;
+  line-height: 1.4;
+  font-size: 1.5rem;
+}
+
+.fieldContainer {
+  position: relative;
+  flex: 1; /* Takes remaining space */
+  height: calc(100vh - 40px);
+  max-width: 600px;
+  background-image: url('/football_field.jpg'); /* Make sure this image exists in your public folder */
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.player {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.playerImageWrapper {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #00d1ff;
+  box-shadow: 0 0 10px rgba(0, 209, 255, 0.6);
+  animation: pulse 2s infinite;
+  background-color: #001f2f;
+}
+
+.playerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.circle {
+  width: 24px;
+  height: 24px;
+  background-color: #00d1ff;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  box-shadow: 0 0 10px rgba(0, 209, 255, 0.6);
+}
+
+.name {
+  margin-top: 6px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: rgb(244, 242, 242);
+  text-shadow: 0 0 3px black;
+  font-family: 'Bebas Neue', sans-serif;
+}
+
+.tooltip {
+  margin-top: 4px;
+  background: rgba(0, 0, 0, 0.75);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (min-width: 1024px){
+  .containerWrapper {
+  align-items: center;
+  justify-content: center;
+}
+}
+@media (max-width: 769px) {
+  .containerWrapper {
+    flex-direction: column;
+    padding: 10px;
+  }
+  .name{
+    font-size: 0.8rem;
+  }
+  .textBox {
+    flex: 0 0 auto;
+    max-height: 200px;
+    margin-bottom: 10px;
+  }
+  
+  .fieldContainer {
+    height: 60vh;
+  }
+}
+
+
+@media (max-width: 769px) {
+  .textBox {
+    flex: 0 0 320px; /* Slightly wider on larger screens */
+  }
+  
+  .textBox h2 {
+    font-size: 1.8rem;
+  }
+  
+  .textBox p {
+    font-size: 1rem;
+  }
+  
+  .fieldContainer {
+    /* Field takes up remaining space automatically */
+  }
+
+  .player {
+    /* Counter rotate each player if needed */
+    transform: translate(-50%, -50%);
+  }
+
+  .name {
+    font-size: 0.7rem;
+  }
+
+  .playerImageWrapper {
+    width: 25px;
+    height: 25px;
+  }
+
+  .circle {
+    width: 25px;
+    height: 25px;
+  }
+
+  .tooltip {
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 376px) {
+  .name{
+    font-size: 0.55rem;
+  }
+}
+
+
+
+
