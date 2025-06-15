@@ -4,8 +4,8 @@ import React, { useState, useRef } from 'react';
 import styles from './gallery.module.css';
 import Navbar2 from '../Navbar2';
 
-export const slides = [
-   {
+const slides: Slide[] = [
+  {
     type: 'grid',
     items: ['./1.png', './2.png', './3.png', './4.png']
   },
@@ -21,10 +21,9 @@ export const slides = [
     type: 'video',
     src: './2.mp4'
   }
-
 ];
 
-export const slides2 = [
+const slides2: Slide[] = [
   {
     type: 'grid',
     items: ['./home1.jpg', './home2.jpg', './home3.jpg', './home4.jpg']
@@ -50,16 +49,13 @@ export const slides2 = [
     type: 'video',
     src: './6.mp4'
   }
-
-
-
 ];
 
-export type Slide =
+type Slide =
   | { type: 'grid'; items: string[] }
   | { type: 'video'; src: string };
 
-export type SectionKey = 'matches' | 'training' | 'snaps';
+type SectionKey = 'matches' | 'training' | 'snaps';
 
 // Content for each section
 const sectionContent: Record<SectionKey, {
