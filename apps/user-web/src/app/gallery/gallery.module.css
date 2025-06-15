@@ -624,6 +624,27 @@
   }
 }
 
+@media (max-width: 426px) {
+  .logoImage {
+  height: 30px; /* or whatever fits your design */
+  width: auto;
+ }
+
+  .logo span {
+    display: none;
+  }
+
+  .hamburger span {
+    width: 25px;
+    height: 2px;
+  }
+
+  .navbar {
+    padding: 0.40rem 1rem; /* Reduce navbar height */
+  }
+}
+
+
 
 
 

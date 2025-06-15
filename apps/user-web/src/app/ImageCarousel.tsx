@@ -6,20 +6,9 @@ import styles from './carousel.module.css';
 export const slides = [
   {
     type: 'grid',
-    items: ['/1.png', '/2.png', '/3.png', '/4.png']
+    items: ['./home1.jpg', './home2.jpg', './home3.jpg', './home4.jpg']
   },
-  {
-    type: 'grid',
-    items: ['/5.png', '/6.jpg', '/7.jpg', '/8.jpg']
-  },
-  {
-    type: 'video',
-    src: '/1.mp4'
-  },
-  {
-    type: 'video',
-    src: '/2.mp4'
-  }
+
 ];
 
 const ImageCarousel: React.FC = () => {
