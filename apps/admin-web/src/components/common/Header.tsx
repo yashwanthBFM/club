@@ -35,7 +35,7 @@ export function Header() {
           >
             Users
           </Link>
-          <Link
+          {/* <Link
             href="/announcements"
             className={`px-3 py-2 text-sm font-medium rounded-md ${
               isActive('/announcements')
@@ -44,7 +44,7 @@ export function Header() {
             }`}
           >
             Announcements
-          </Link>
+          </Link> */}
           <Link
             href="/payment-requests"
             className={`px-3 py-2 text-sm font-medium rounded-md ${
@@ -55,7 +55,17 @@ export function Header() {
           >
             Payment Requests
           </Link>
-        </nav>
+
+          <Link
+            href="/teams"
+            className={`px-3 py-2 text-sm font-medium rounded-md ${
+              isActive('/teams')
+                ? 'bg-gray-100 text-gray-900'
+                : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+            }`}
+          >
+            Teams
+          </Link>        </nav>
       </div>
       <div className="flex items-center space-x-4">
         <div className="text-sm text-gray-600">

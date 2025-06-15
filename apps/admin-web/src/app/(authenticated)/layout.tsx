@@ -26,9 +26,10 @@ export default function AuthenticatedLayout({
   const navLinks = [
     { href: '/dashboard', label: 'Dashboard' },
     { href: '/users', label: 'Users' },
-    { href: '/polls', label: 'Polls' },
-    { href: '/games', label: 'Games' },
+    // { href: '/polls', label: 'Polls' },
+    // { href: '/games', label: 'Games' },
     { href: '/payment-requests', label: 'Payment Requests' },
+    { href: '/teams', label: 'Teams' },
   ];
 
   return (

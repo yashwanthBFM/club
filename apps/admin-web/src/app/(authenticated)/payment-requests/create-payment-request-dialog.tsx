@@ -11,6 +11,24 @@ interface User {
   email: string;
 }
 
+interface Team {
+  id: number;
+  name: string;
+  description?: string;
+  members: {
+    user: {
+      id: number;
+      name: string;
+      email: string;
+    };
+    role: string;
+  }[];
+  createdBy: {
+    id: number;
+    name: string;
+  };
+}
+
 interface CreatePaymentRequestDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -24,8 +42,9 @@ export function CreatePaymentRequestDialog({
 }: CreatePaymentRequestDialogProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [users, setUsers] = useState<User[]>([]);
+  const [teams, setTeams] = useState<Team[]>([]);
+  const [requestType, setRequestType] = useState<'user' | 'team'>('user');
   const [formData, setFormData] = useState<CreatePaymentRequestData>({
-    targetUserId: 0,
     description: '',
     amount: 0,
     dueDate: '',
@@ -33,15 +52,19 @@ export function CreatePaymentRequestDialog({
 
   useEffect(() => {
     if (!open) return;
-    const fetchUsers = async () => {
+    const fetchData = async () => {
       try {
-        const response = await api.get('/users');
-        setUsers(response.data);
+        const [usersResponse, teamsResponse] = await Promise.all([
+          api.get('/users'),
+          api.get('/teams')
+        ]);
+        setUsers(usersResponse.data);
+        setTeams(teamsResponse.data);
       } catch (error) {
-        toast.error('Failed to fetch users');
+        toast.error('Failed to fetch data');
       }
     };
-    fetchUsers();
+    fetchData();
   }, [open]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -52,11 +75,11 @@ export function CreatePaymentRequestDialog({
       toast.success('Payment request created successfully');
       onSuccess();
       setFormData({
-        targetUserId: 0,
         description: '',
         amount: 0,
         dueDate: '',
       });
+      setRequestType('user');
     } catch (error) {
       toast.error('Failed to create payment request');
     } finally {
@@ -73,24 +96,91 @@ export function CreatePaymentRequestDialog({
           <h3 className="text-lg font-medium leading-6 text-gray-900 mb-4">Create Payment Request</h3>
           <form onSubmit={handleSubmit}>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="targetUser">
-                Target User
-              </label>
-              <select
-                id="targetUser"
-                value={formData.targetUserId}
-                onChange={(e) => setFormData({ ...formData, targetUserId: parseInt(e.target.value) })}
-                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                required
-              >
-                <option value="">Select user</option>
-                {users.map((user) => (
-                  <option key={user.id} value={user.id}>
-                    {user.name} ({user.email})
-                  </option>
-                ))}
-              </select>
+              <label className="block text-gray-700 text-sm font-bold mb-2">Request Type</label>
+              <div className="flex gap-4">
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    value="user"
+                    checked={requestType === 'user'}
+                    onChange={() => {
+                      setRequestType('user');
+                      setFormData({ ...formData, teamId: undefined, targetUserId: undefined });
+                    }}
+                    className="form-radio"
+                  />
+                  <span className="ml-2">Individual</span>
+                </label>
+                <label className="inline-flex items-center">
+                  <input
+                    type="radio"
+                    value="team"
+                    checked={requestType === 'team'}
+                    onChange={() => {
+                      setRequestType('team');
+                      setFormData({ ...formData, targetUserId: undefined, teamId: undefined });
+                    }}
+                    className="form-radio"
+                  />
+                  <span className="ml-2">Team</span>
+                </label>
+              </div>
             </div>
+
+            {requestType === 'user' ? (
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="targetUser">
+                  Target User
+                </label>
+                <select
+                  id="targetUser"
+                  value={formData.targetUserId || ''}
+                  onChange={(e) => setFormData({ ...formData, targetUserId: parseInt(e.target.value) })}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                >
+                  <option value="">Select user</option>
+                  {users.map((user) => (
+                    <option key={user.id} value={user.id}>
+                      {user.name} ({user.email})
+                    </option>
+                  ))}
+                </select>
+              </div>
+            ) : (
+              <div className="mb-4">
+                <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="team">
+                  Team
+                </label>
+                <select
+                  id="team"
+                  value={formData.teamId || ''}
+                  onChange={(e) => setFormData({ ...formData, teamId: parseInt(e.target.value) })}
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                >
+                  <option value="">Select team</option>
+                  {teams.map((team) => (
+                    <option key={team.id} value={team.id}>
+                      {team.name} ({team.members.length} members)
+                    </option>
+                  ))}
+                </select>
+                {formData.teamId && (
+                  <div className="mt-2 text-sm text-gray-600">
+                    <p>Team members:</p>
+                    <ul className="list-disc list-inside">
+                      {teams.find(t => t.id === formData.teamId)?.members.map(member => (
+                        <li key={member.user.id}>
+                          {member.user.name} ({member.role})
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            )}
+
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">
                 Description
