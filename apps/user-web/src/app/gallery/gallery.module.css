@@ -189,15 +189,14 @@
   color: #333;
   font-size: 1.1rem;
   padding: 2rem;
-  background-color: rgba(255, 255, 255, 0.95);
+  background : transparent;
   border-radius: 15px;
   box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-  backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .textBox h3 {
-  color: #343a3f;
+  color: #fcfdfe;
   font-size: 1.8rem;
   margin-bottom: 1rem;
   font-weight: 700;
@@ -205,7 +204,7 @@
 
 .textBox p {
   line-height: 1.6;
-  color: #555;
+  color: #fffcfc;
 }
 
 /* Carousel Wrapper */
