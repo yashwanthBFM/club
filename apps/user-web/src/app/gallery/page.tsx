@@ -7,49 +7,70 @@ import Navbar2 from '../Navbar2';
 const slides: Slide[] = [
   {
     type: 'grid',
-    items: ['./1.png', './2.png', './3.png', './4.png']
+    items: ['./matches_1.jpg', './matches_2.jpg', './matches_3.jpg', './matches_4.jpg']
   },
   {
     type: 'grid',
-    items: ['./5.png', './6.jpg', './7.jpg', './8.jpg']
+    items: ['./matches_5.jpg', './6.jpg', './7.jpg', './8.jpg']
   },
   {
     type: 'video',
-    src: './1.mp4'
+    src: './matches_1.mp4'
   },
   {
     type: 'video',
-    src: './2.mp4'
+    src: './matches_2.mp4'
   }
 ];
 
 const slides2: Slide[] = [
   {
     type: 'grid',
-    items: ['./home1.jpg', './home2.jpg', './home3.jpg', './home4.jpg']
+    items: ['./train_1.jpg', './train_2.jpg', './train_3.jpg', './train_4.jpg']
   },
   {
     type: 'grid',
-    items: ['./home5.jpg', './home6.jpg', './home7.jpg', './home8.jpg']
+    items: ['./train_5.jpg', './train_6.jpg', './train_7.jpg', './train_8.jpg']
   },
  
   {
     type: 'video',
-    src: './3.mp4'
+    src: './train_1.mp4'
   },
   {
     type: 'video',
-    src: './4.mp4'
+    src: './train_2.mp4'
   },
   {
     type: 'video',
-    src: './5.mp4'
+    src: './train_3.mp4'
   },
   {
     type: 'video',
-    src: './6.mp4'
+    src: './train_4.mp4'
   }
 ];
+
+const slides3: Slide[] = [
+  {
+    type: 'grid',
+    items: ['./snaps_1.jpg', './snaps_2.jpg', './snaps_3.jpg', './snaps_4.jpg']
+  },
+  {
+    type: 'grid',
+    items: ['./snaps_5.jpg', './home6.jpg', './home4.jpg', './home5.jpg']
+  },
+ 
+  {
+    type: 'video',
+    src: './snaps_1.mp4'
+  },
+  {
+    type: 'video',
+    src: './snaps_2.mp4'
+  }
+];
+
 
 type Slide =
   | { type: 'grid'; items: string[] }
@@ -76,7 +97,7 @@ const sectionContent: Record<SectionKey, {
   snaps: {
     title: "Club Memories",
     description: "Capturing the essence of our club culture - from team bonding moments to celebration snapshots that showcase our unity and passion.",
-    slides: slides // Using the original slides for this section
+    slides: slides3 // Using the original slides for this section
   }
 };
 
