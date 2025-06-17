@@ -6,32 +6,32 @@ import { useMediaQuery } from 'react-responsive';
 import Navbar2 from '../Navbar2';
 
 const playersSmall = [
-  { name: 'Samuel – CB', top: '70%', left: '50%', info: 'Captain and Centre-Back',photo: '/coach1.jpeg' },
-  { name: 'Cauden – ST', top: '20%', left: '50%', info: 'Striker',photo: '/coach1.jpeg' },
-  { name: 'Advik – CM', top: '52%', left: '25%', info: 'Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Khan – GK', top: '90%', left: '50%', info: 'Goalkeeper',photo: '/coach1.jpeg' },
-  { name: 'Sriram Sai – RB', top: '65%', left: '80%', info: 'Right Back',photo: '/coach1.jpeg' },
-  { name: 'Henry – LB', top: '65%', left: '20%', info: 'Left Back',photo: '/coach1.jpeg' },
-  { name: 'Sanjit – CDM', top: '52%', left: '43%', info: 'Defensive Midfielder',photo: '/coach1.jpeg' },
-    { name: 'Tiwari – CDM', top: '52%', left: '57%', info: 'Defensive Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Vihari – CAM', top: '52%', left: '75%', info: 'Attacking Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Trey – RW', top: '35%', left: '80%', info: 'Right Winger' ,photo: '/coach1.jpeg'},
-  { name: 'Lucas – LW', top: '35%', left: '20%', info: 'Left Winger' ,photo: '/coach1.jpeg'},
+  { name: 'Samuel – CB', top: '70%', left: '50%', info: 'Captain and Centre-Back',photo: '/coach_1.jpg' },
+  { name: 'Cauden – ST', top: '20%', left: '50%', info: 'Striker',photo: '/coach_1.jpg' },
+  { name: 'Advik – CM', top: '52%', left: '25%', info: 'Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Khan – GK', top: '90%', left: '50%', info: 'Goalkeeper',photo: '/coach_1.jpg' },
+  { name: 'Sriram Sai – RB', top: '65%', left: '80%', info: 'Right Back',photo: '/coach_1.jpg' },
+  { name: 'Henry – LB', top: '65%', left: '20%', info: 'Left Back',photo: '/coach_1.jpg' },
+  { name: 'Sanjit – CDM', top: '52%', left: '43%', info: 'Defensive Midfielder',photo: '/coach_1.jpg' },
+    { name: 'Tiwari – CDM', top: '52%', left: '57%', info: 'Defensive Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Vihari – CAM', top: '52%', left: '75%', info: 'Attacking Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Trey – RW', top: '35%', left: '80%', info: 'Right Winger' ,photo: '/coach_1.jpg'},
+  { name: 'Lucas – LW', top: '35%', left: '20%', info: 'Left Winger' ,photo: '/coach_1.jpg'},
 
 ];
 
 const playersLarge = [
-  { name: 'Samuel – CB', top: '70%', left: '50%', info: 'Captain and Centre-Back',photo: '/coach1.jpeg' },
-  { name: 'Cauden – ST', top: '20%', left: '50%', info: 'Striker',photo: '/coach1.jpeg' },
-  { name: 'Advik – CM', top: '52%', left: '25%', info: 'Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Khan – GK', top: '90%', left: '50%', info: 'Goalkeeper',photo: '/coach1.jpeg' },
-  { name: 'Sriram Sai – RB', top: '65%', left: '60%', info: 'Right Back',photo: '/coach1.jpeg' },
-  { name: 'Henry – LB', top: '65%', left: '40%', info: 'Left Back',photo: '/coach1.jpeg' },
-  { name: 'Sanjit – CDM', top: '52%', left: '40%', info: 'Defensive Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Tiwari – CDM', top: '52%', left: '60%', info: 'Defensive Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Vihari – CAM', top: '52%', left: '75%', info: 'Attacking Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Trey – RW', top: '35%', left: '60%', info: 'Right Winger' ,photo: '/coach1.jpeg'},
-  { name: 'Lucas – LW', top: '35%', left: '40%', info: 'Left Winger' ,photo: '/coach1.jpeg'},
+  { name: 'Samuel – CB', top: '70%', left: '50%', info: 'Captain and Centre-Back',photo: '/coach_1.jpg' },
+  { name: 'Cauden – ST', top: '20%', left: '50%', info: 'Striker',photo: '/coach_1.jpg' },
+  { name: 'Advik – CM', top: '52%', left: '25%', info: 'Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Khan – GK', top: '90%', left: '50%', info: 'Goalkeeper',photo: '/coach_1.jpg' },
+  { name: 'Sriram Sai – RB', top: '65%', left: '60%', info: 'Right Back',photo: '/coach_1.jpg' },
+  { name: 'Henry – LB', top: '65%', left: '40%', info: 'Left Back',photo: '/coach_1.jpg' },
+  { name: 'Sanjit – CDM', top: '52%', left: '40%', info: 'Defensive Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Tiwari – CDM', top: '52%', left: '60%', info: 'Defensive Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Vihari – CAM', top: '52%', left: '75%', info: 'Attacking Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Trey – RW', top: '35%', left: '60%', info: 'Right Winger' ,photo: '/coach_1.jpg'},
+  { name: 'Lucas – LW', top: '35%', left: '40%', info: 'Left Winger' ,photo: '/coach_1.jpg'},
 ];
 
 export default function Field() {

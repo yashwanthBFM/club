@@ -1,11 +1,31 @@
 import styles from './about.module.css';
+import React, { useRef, useEffect, useState } from 'react';
 
 export default function About() {
+  const sectionRef = useRef<HTMLDivElement | null>(null);
+  const [animate, setAnimate] = useState(false);
+
+  useEffect(() => {
+    const observer = new window.IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setAnimate(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.3 }
+    );
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section className={styles.aboutSection}>
-      <div className={styles.container}>
+      <div className={styles.container} ref={sectionRef}>
         <div className={styles.imageContainer}>
-          <img src="/11.jpg" alt="About Renegades FC" className={styles.image} />
+          <img src="/11.jpg" alt="About Renegades FC" className={`${styles.image} ${animate ? styles.animate : ''}`} />
         </div>
         <div className={styles.textContainer}>
           <h2 className={styles.heading}>About Renegades FC</h2>

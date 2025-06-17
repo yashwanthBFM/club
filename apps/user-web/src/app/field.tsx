@@ -3,31 +3,31 @@ import styles from './field.module.css';
 import { useMediaQuery } from 'react-responsive';
 
 const playersSmall = [
-  { name: 'Ethan – CB', top: '70%', left: '50%', info: 'Captain and Centre-Back',photo: '/coach1.jpeg' },
-  { name: 'Leo – ST', top: '20%', left: '50%', info: 'Striker',photo: '/coach1.jpeg' },
-  { name: 'Noah – CM', top: '52%', left: '25%', info: 'Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Mason – GK', top: '90%', left: '50%', info: 'Goalkeeper',photo: '/coach1.jpeg' },
-  { name: 'Owen – RB', top: '65%', left: '80%', info: 'Right Back',photo: '/coach1.jpeg' },
-  { name: 'Lucas – LB', top: '65%', left: '20%', info: 'Left Back',photo: '/coach1.jpeg' },
-  { name: 'Aiden – CDM', top: '52%', left: '50%', info: 'Defensive Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Caleb – CAM', top: '52%', left: '75%', info: 'Attacking Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Nathan – RW', top: '35%', left: '80%', info: 'Right Winger' ,photo: '/coach1.jpeg'},
-  { name: 'Logan – LW', top: '35%', left: '20%', info: 'Left Winger' ,photo: '/coach1.jpeg'},
-  { name: 'Jackson – Sub GK', top: '95%', left: '20%', info: 'Substitute Goalkeeper',photo: '/coach1.jpeg' },
+  { name: 'Ethan – CB', top: '70%', left: '50%', info: 'Captain and Centre-Back',photo: '/coach_1.jpg' },
+  { name: 'Leo – ST', top: '20%', left: '50%', info: 'Striker',photo: '/coach_1.jpg' },
+  { name: 'Noah – CM', top: '52%', left: '25%', info: 'Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Mason – GK', top: '90%', left: '50%', info: 'Goalkeeper',photo: '/coach_1.jpg' },
+  { name: 'Owen – RB', top: '65%', left: '80%', info: 'Right Back',photo: '/coach_1.jpg' },
+  { name: 'Lucas – LB', top: '65%', left: '20%', info: 'Left Back',photo: '/coach_1.jpg' },
+  { name: 'Aiden – CDM', top: '52%', left: '50%', info: 'Defensive Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Caleb – CAM', top: '52%', left: '75%', info: 'Attacking Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Nathan – RW', top: '35%', left: '80%', info: 'Right Winger' ,photo: '/coach_1.jpg'},
+  { name: 'Logan – LW', top: '35%', left: '20%', info: 'Left Winger' ,photo: '/coach_1.jpg'},
+  { name: 'Jackson – Sub GK', top: '95%', left: '20%', info: 'Substitute Goalkeeper',photo: '/coach_1.jpg' },
 ];
 
 const playersLarge = [
-  { name: 'Ethan – CB', top: '70%', left: '50%', info: 'Captain and Centre-Back',photo: '/coach1.jpeg' },
-  { name: 'Leo – ST', top: '20%', left: '50%', info: 'Striker',photo: '/coach1.jpeg' },
-  { name: 'Noah – CM', top: '52%', left: '35%', info: 'Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Mason – GK', top: '90%', left: '50%', info: 'Goalkeeper',photo: '/coach1.jpeg' },
-  { name: 'Owen – RB', top: '65%', left: '60%', info: 'Right Back',photo: '/coach1.jpeg' },
-  { name: 'Lucas – LB', top: '65%', left: '40%', info: 'Left Back',photo: '/coach1.jpeg' },
-  { name: 'Aiden – CDM', top: '52%', left: '50%', info: 'Defensive Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Caleb – CAM', top: '52%', left: '65%', info: 'Attacking Midfielder',photo: '/coach1.jpeg' },
-  { name: 'Nathan – RW', top: '35%', left: '60%', info: 'Right Winger' ,photo: '/coach1.jpeg'},
-  { name: 'Logan – LW', top: '35%', left: '40%', info: 'Left Winger' ,photo: '/coach1.jpeg'},
-  { name: 'Jackson – Sub GK', top: '95%', left: '40%', info: 'Substitute Goalkeeper',photo: '/coach1.jpeg' },
+  { name: 'Ethan – CB', top: '70%', left: '50%', info: 'Captain and Centre-Back',photo: '/coach_1.jpg' },
+  { name: 'Leo – ST', top: '20%', left: '50%', info: 'Striker',photo: '/coach_1.jpg' },
+  { name: 'Noah – CM', top: '52%', left: '35%', info: 'Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Mason – GK', top: '90%', left: '50%', info: 'Goalkeeper',photo: '/coach_1.jpg' },
+  { name: 'Owen – RB', top: '65%', left: '60%', info: 'Right Back',photo: '/coach_1.jpg' },
+  { name: 'Lucas – LB', top: '65%', left: '40%', info: 'Left Back',photo: '/coach_1.jpg' },
+  { name: 'Aiden – CDM', top: '52%', left: '50%', info: 'Defensive Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Caleb – CAM', top: '52%', left: '65%', info: 'Attacking Midfielder',photo: '/coach_1.jpg' },
+  { name: 'Nathan – RW', top: '35%', left: '60%', info: 'Right Winger' ,photo: '/coach_1.jpg'},
+  { name: 'Logan – LW', top: '35%', left: '40%', info: 'Left Winger' ,photo: '/coach_1.jpg'},
+  { name: 'Jackson – Sub GK', top: '95%', left: '40%', info: 'Substitute Goalkeeper',photo: '/coach_1.jpg' },
 ];
 
 export default function Field() {
