@@ -6,7 +6,11 @@ const Footer = () => {
   return (
     <footer className={styles.footer}>
       <div className={styles.topSection}>
+        <div className={styles.logo}>
+  <img src="/logo.png" alt="Renegades FC Logo" className={styles.logoImage} />
+
         <h2 className={styles.logo}>Renegades FC</h2>
+        </div>
         <div className={styles.bottomSection}>
         <p>&copy; {new Date().getFullYear()} Renegades FC. All rights reserved.</p>
         <p className={styles.developer}>Developed by BrownFolk Media</p>

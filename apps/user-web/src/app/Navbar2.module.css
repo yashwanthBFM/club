@@ -20,6 +20,16 @@
   color: #fff;
   font-weight: 200;
 }
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* space between image and text */
+}
+
+.logoImage {
+  height: 45px; /* or whatever fits your design */
+  width: auto;
+}
 
 .links {
   font-size: 1.5rem;
@@ -85,5 +95,25 @@
 
   .hamburger {
     display: flex;
+  }
+}
+
+@media (max-width: 426px) {
+  .logoImage {
+  height: 30px; /* or whatever fits your design */
+  width: auto;
+ }
+
+  .logo span {
+    display: none;
+  }
+
+  .hamburger span {
+    width: 25px;
+    height: 2px;
+  }
+
+  .navbar {
+    padding: 0.40rem 1rem; /* Reduce navbar height */
   }
 }

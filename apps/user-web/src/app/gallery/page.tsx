@@ -26,12 +26,13 @@ const slides: Slide[] = [
 const slides2: Slide[] = [
   {
     type: 'grid',
-    items: ['./1.png', './2.png', './3.png', './4.png']
+    items: ['./home1.jpg', './home2.jpg', './home3.jpg', './home4.jpg']
   },
   {
     type: 'grid',
-    items: ['./5.png', './6.jpg', './7.jpg', './8.jpg']
+    items: ['./home5.jpg', './home6.jpg', './home7.jpg', './home8.jpg']
   },
+ 
   {
     type: 'video',
     src: './3.mp4'

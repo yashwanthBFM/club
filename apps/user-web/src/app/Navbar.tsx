@@ -32,7 +32,11 @@ export default function Navbar() {
       id="mainNavbar" 
       className={`${styles.navbar} ${styles.navHidden}`}
     >
-      <div className={styles.logo}>Renegades FC</div>
+      <div className={styles.logo}>
+  <img src="/logo.png" alt="Renegades FC Logo" className={styles.logoImage} />
+  <span>Renegades FC</span>
+</div>
+
       <div className={`${styles.links} ${isOpen ? styles.showMenu : ""}`}>
         <a href="/" onClick={closeMenu}>Home</a>
         <a href="#about" onClick={closeMenu}>About</a>

@@ -12,7 +12,15 @@
   align-items: center;
   justify-content: center;
 }
-
+.logoImage {
+  height: 70px; /* or whatever fits your design */
+  width: auto;
+}
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem; /* space between image and text */
+}
 .developer {
   margin-top: 0.5rem;
   font-size: 0.9rem;
