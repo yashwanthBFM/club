@@ -3,16 +3,27 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+<<<<<<< HEAD
   "scripts": {
     "build": "nx build user-web",
     "start": "nx serve user-web --prod",
     "dev": "nx serve user-web"
   },
+=======
+  "scripts": {},
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+<<<<<<< HEAD
     "@nx/esbuild": "21.1.0",
+=======
+    "@nx/devkit": "21.1.0",
+    "@nx/esbuild": "21.1.0",
+    "@nx/js": "21.1.0",
+    "@nx/next": "^21.1.0",
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
     "@nx/node": "^21.1.0",
     "@nx/playwright": "21.1.0",
     "@playwright/test": "^1.36.0",
@@ -29,11 +40,20 @@
     "@types/react-dom": "19.0.0",
     "autoprefixer": "^10.4.17",
     "esbuild": "^0.19.2",
+<<<<<<< HEAD
+=======
+    "nx": "21.1.0",
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
     "postcss": "^8.4.35",
     "prettier": "^2.6.2",
     "prisma": "^6.9.0",
     "tailwindcss": "^3.4.1",
+<<<<<<< HEAD
     "tslib": "^2.3.0"
+=======
+    "tslib": "^2.3.0",
+    "typescript": "~5.7.2"
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
   },
   "nx": {},
   "dependencies": {
@@ -44,9 +64,12 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.1.3",
     "@nestjs/typeorm": "^11.0.0",
+<<<<<<< HEAD
     "@nx/devkit": "21.1.0",
     "@nx/js": "21.1.0",
     "@nx/next": "^21.1.0",
+=======
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
     "@radix-ui/react-dialog": "^1.1.14",
     "@radix-ui/react-label": "^2.1.7",
     "@radix-ui/react-select": "^2.2.5",
@@ -70,7 +93,10 @@
     "lucide-react": "^0.511.0",
     "next": "~15.2.4",
     "nodemailer": "^7.0.3",
+<<<<<<< HEAD
     "nx": "21.1.0",
+=======
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.16.0",
@@ -82,7 +108,11 @@
     "speakeasy": "^2.0.0",
     "tailwind-merge": "^3.3.0",
     "twilio": "^5.6.1",
+<<<<<<< HEAD
     "typeorm": "^0.3.24",
     "typescript": "~5.7.2"
+=======
+    "typeorm": "^0.3.24"
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
   }
 }

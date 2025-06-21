@@ -110,6 +110,7 @@
 
   .hamburger {
     display: flex;
+<<<<<<< HEAD
     /* iOS-specific hamburger optimizations */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
@@ -127,6 +128,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+=======
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
   }
 }
 
@@ -148,6 +151,7 @@
   .navbar {
     padding: 0.40rem 1rem; /* Reduce navbar height */
   }
+<<<<<<< HEAD
   
   .hamburger {
     min-height: 40px;
@@ -170,5 +174,7 @@
     width: 22px;
     height: 2px;
   }
+=======
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
 }
 

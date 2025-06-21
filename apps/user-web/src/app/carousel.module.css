@@ -104,6 +104,7 @@
 
 .gridImage {
   width: 100%;
+<<<<<<< HEAD
   height: 100%;
   object-fit: cover;
   border-radius: 8px;
@@ -113,6 +114,11 @@
 
 .gridImage:hover {
   transform: scale(1.05);
+=======
+  height: 250px;
+  object-fit: cover;
+  border-radius: 10px;
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
 }
 
 .video {
@@ -250,6 +256,7 @@
     font-size: 1.2rem;
   }
 }
+<<<<<<< HEAD
 
 /* Lightbox Styles */
 .lightbox {
@@ -280,3 +287,5 @@
   font-weight: bold;
   cursor: pointer;
 }
+=======
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c

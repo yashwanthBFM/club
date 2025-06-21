@@ -299,6 +299,7 @@
 }
 
 .sectionDot {
+<<<<<<< HEAD
   width: 12px;
   height: 12px;
   margin: 0 6px;
@@ -306,6 +307,15 @@
   border-radius: 50%;
   cursor: pointer;
   transition: background-color 0.3s ease;
+=======
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
 }
 
 .sectionDot:hover {
@@ -605,6 +615,7 @@
   }
 }
 
+<<<<<<< HEAD
 /* Lightbox Styles */
 .lightbox {
   position: fixed;
@@ -635,6 +646,8 @@
   cursor: pointer;
 }
 
+=======
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
 
 
 

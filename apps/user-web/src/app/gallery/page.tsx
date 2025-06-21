@@ -2,6 +2,10 @@
 
 import React, { useState, useRef } from 'react';
 import styles from './gallery.module.css';
+<<<<<<< HEAD
+=======
+import Navbar2 from '../Navbar2';
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
 
 const slides: Slide[] = [
   {
@@ -96,12 +100,20 @@ const sectionContent: Record<SectionKey, {
   snaps: {
     title: "Club Memories",
     description: "Capturing the essence of our club culture - from team bonding moments to celebration snapshots that showcase our unity and passion.",
+<<<<<<< HEAD
     slides: slides3
+=======
+    slides: slides3 // Using the original slides for this section
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
   }
 };
 
 // Carousel component that can be reused
+<<<<<<< HEAD
 const CarouselComponent = ({ slides, sectionKey, onImageClick }: { slides: Slide[]; sectionKey: SectionKey; onImageClick: (src: string) => void; }) => {
+=======
+const CarouselComponent = ({ slides, sectionKey }: { slides: Slide[]; sectionKey: SectionKey }) => {
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const handleNext = () => {
@@ -128,7 +140,10 @@ const CarouselComponent = ({ slides, sectionKey, onImageClick }: { slides: Slide
               src={src}
               alt={`${sectionKey} Image ${idx}`}
               className={styles.gridImage}
+<<<<<<< HEAD
               onClick={() => onImageClick(src)}
+=======
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
             />
           ))}
         </div>
@@ -147,6 +162,7 @@ const CarouselComponent = ({ slides, sectionKey, onImageClick }: { slides: Slide
         ↦
       </button>
       <div className={styles.dots}>
+<<<<<<< HEAD
         {slides.map((_, dotIndex: number) => (
           <span
             key={dotIndex}
@@ -154,6 +170,15 @@ const CarouselComponent = ({ slides, sectionKey, onImageClick }: { slides: Slide
               currentIndex === dotIndex ? styles.active : ''
             }`}
             onClick={() => setCurrentIndex(dotIndex)}
+=======
+        {slides.map((_, idx: number) => (
+          <span
+            key={idx}
+            className={`${styles.dot} ${
+              currentIndex === idx ? styles.active : ''
+            }`}
+            onClick={() => setCurrentIndex(idx)}
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
           />
         ))}
       </div>
@@ -163,6 +188,7 @@ const CarouselComponent = ({ slides, sectionKey, onImageClick }: { slides: Slide
 
 const ImageCarousel = () => {
   const [activeSection, setActiveSection] = useState<number>(0);
+<<<<<<< HEAD
   const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);
 
@@ -174,6 +200,10 @@ const ImageCarousel = () => {
     setLightboxImage(null);
   };
 
+=======
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
   const scrollToSection = (sectionIndex: number) => {
     setActiveSection(sectionIndex);
     if (sliderRef.current) {
@@ -189,6 +219,10 @@ const ImageCarousel = () => {
   const sectionLabels = ['Matches', 'Training', 'Snaps'];
   return (
     <>
+<<<<<<< HEAD
+=======
+      <Navbar2 />
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
       <section className={styles.carouselSection}>
         {/* Navigation buttons */}
         <div className={styles.carouselButtons}>
@@ -207,9 +241,15 @@ const ImageCarousel = () => {
         {/* Horizontal Sliding Container */}
         <div className={styles.carouselSliderWrapper} ref={sliderRef}>
           {sections.map((sectionKey, index) => (
+<<<<<<< HEAD
             <section
               key={sectionKey}
               id={sectionKey}
+=======
+            <section 
+              key={sectionKey} 
+              id={sectionKey} 
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
               className={styles.carouselPanel}
             >
               <div className={styles.carouselContent}>
@@ -217,10 +257,16 @@ const ImageCarousel = () => {
                   <h3>{sectionContent[sectionKey].title}</h3>
                   <p>{sectionContent[sectionKey].description}</p>
                 </div>
+<<<<<<< HEAD
                 <CarouselComponent
                   slides={sectionContent[sectionKey].slides}
                   sectionKey={sectionKey}
                   onImageClick={openLightbox}
+=======
+                <CarouselComponent 
+                  slides={sectionContent[sectionKey].slides} 
+                  sectionKey={sectionKey}
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
                 />
               </div>
             </section>
@@ -239,6 +285,7 @@ const ImageCarousel = () => {
           ))}
         </div>
       </section>
+<<<<<<< HEAD
 
       {lightboxImage && (
         <div className={styles.lightbox} onClick={closeLightbox}>
@@ -246,6 +293,8 @@ const ImageCarousel = () => {
           <img src={lightboxImage} alt="Lightbox" className={styles.lightboxImage} />
         </div>
       )}
+=======
+>>>>>>> 13a80fa78934b14a45c1a7bd9b425b6115337a5c
     </>
   );
 };
