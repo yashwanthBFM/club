@@ -6,7 +6,54 @@ html {
   line-height: 1.5;
   tab-size: 4;
   scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* iOS-specific optimizations */
+* {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+button, a, [role="button"], input[type="submit"], input[type="button"] {
+  cursor: pointer;
+}
+
+/* Allow text selection for content areas */
+p, h1, h2, h3, h4, h5, h6, span, div {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* iPhone Safari specific fixes */
+body {
+  /* Prevent zoom on input focus */
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Fix for iPhone Safari input zoom */
+input, textarea, select {
+  font-size: 16px !important;
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
+/* Fix for iPhone Safari button styling */
+button {
+  -webkit-appearance: none;
+  border-radius: 0;
+}
+
+/* Fix for iPhone Safari viewport height */
+.full-height {
+  height: 100vh;
+  height: -webkit-fill-available;
+}
+
 /* globals.css */
 body2 {
   margin: 0;
@@ -21,8 +68,10 @@ img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-touch-callout: none;
 }
-
 
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;

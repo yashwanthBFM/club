@@ -50,7 +50,18 @@ export default function HomePage() {
     loadGames();
     gsap.registerPlugin(SplitText);
 
+    // iPhone Safari optimization: Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     document.fonts.ready.then(() => {
+      // Skip animations if user prefers reduced motion
+      if (prefersReducedMotion) {
+        // Just show elements without animations
+        if (heroRef.current) heroRef.current.style.opacity = '1';
+        if (subtitleRef.current) subtitleRef.current.style.opacity = '1';
+        return;
+      }
+
       // Animate Hero Title
     if (heroRef.current) {
     gsap.set(heroRef.current, { opacity: 1 });
