@@ -18,50 +18,25 @@ html {
   }
 }
 
-/* Enhanced mobile parallax overrides */
-@media (max-width: 1024px), (hover: none) {
-  [data-parallax] {
-    background-attachment: scroll !important;
-    overflow: hidden !important;
-    position: relative !important;
-    /* Preserve background-image - don't override */
-  }
-  
-  /* Ensure all parallax sections have proper overflow */
-  .aboutSection,
-  .joinSection,
-  .infoSection,
-  .parallaxTeamSection {
-    background-attachment: scroll !important;
-    overflow: hidden !important;
-    position: relative !important;
-    /* Preserve background-image - don't override */
-  }
-  
-  /* Mobile parallax background elements */
-  .parallax-bg {
-    position: absolute !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    height: 120% !important;
-    z-index: -1 !important;
-    transform: translate3d(0, 0, 0) !important;
-    will-change: transform !important;
-    backface-visibility: hidden !important;
-    -webkit-backface-visibility: hidden !important;
-    -webkit-transform: translate3d(0, 0, 0) !important;
-  }
+/* Universal transform3d parallax styling - works on all devices */
+.parallax-bg {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 120% !important;
+  z-index: -1 !important;
+  will-change: transform !important;
+  backface-visibility: hidden !important;
+  -webkit-backface-visibility: hidden !important;
+  pointer-events: none !important;
 }
 
-/* Additional touch device targeting */
-@supports ((-webkit-touch-callout: none) or (pointer: coarse)) {
-  [data-parallax] {
-    background-attachment: scroll !important;
-    overflow: hidden !important;
-    position: relative !important;
-    /* Preserve background-image - don't override */
-  }
+/* Ensure parallax sections have proper positioning */
+[data-parallax] {
+  position: relative !important;
+  overflow: hidden !important;
+  background-attachment: scroll !important;
 }
 
 /* iOS-specific optimizations */
