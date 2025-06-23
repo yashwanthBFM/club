@@ -23,7 +23,6 @@ export default function Navbar2() {
         <a href="#about" onClick={closeMenu}>About</a>
         <a href="#info" onClick={closeMenu}>Why Us?</a>
         <a href="#meet" onClick={closeMenu}>Meet our Team</a>
-        <a href="#gallery" onClick={closeMenu}>Gallery</a>
         <a href="/register" onClick={closeMenu}>Join</a>
 
       </div>

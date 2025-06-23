@@ -234,8 +234,8 @@
 }
 
 .lightboxImage {
-  width: 400px;  /* Or whatever size you prefer */
-  height: 400px; /* Same as width for a perfect circle */
+  width: 250px;  /* Or whatever size you prefer */
+  height: 250px; /* Same as width for a perfect circle */
   border-radius: 50%;
   object-fit: cover;
   border: 4px solid white;

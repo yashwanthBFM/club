@@ -6,17 +6,17 @@ import { useMediaQuery } from 'react-responsive';
 import Navbar2 from '../Navbar2';
 
 const playerList = [
-  { name: 'Samuel', info: 'Captain and Centre-Back', photo: '/coach_1.jpg' },
-  { name: 'Cauden', info: 'Striker', photo: '/coach_1.jpg' },
-  { name: 'Advik', info: 'Midfielder', photo: '/coach_1.jpg' },
-  { name: 'Khan', info: 'Goalkeeper', photo: '/coach_1.jpg' },
-  { name: 'Sriram Sai', info: 'Right Back', photo: '/coach_1.jpg' },
-  { name: 'Henry', info: 'Left Back', photo: '/coach_1.jpg' },
-  { name: 'Sanjit', info: 'Defensive Midfielder', photo: '/coach_1.jpg' },
-  { name: 'Tiwari', info: 'Defensive Midfielder', photo: '/coach_1.jpg' },
-  { name: 'Vihari', info: 'Attacking Midfielder', photo: '/coach_1.jpg' },
-  { name: 'Trey', info: 'Right Winger', photo: '/coach_1.jpg' },
-  { name: 'Lucas', info: 'Left Winger', photo: '/coach_1.jpg' },
+  { name: 'Samuel', info: 'Captain and Centre-Back', photo: '/7.jpg' },
+  { name: 'Cauden', info: 'Striker', photo: '/7.jpg' },
+  { name: 'Advik', info: 'Midfielder', photo: '/7.jpg' },
+  { name: 'Khan', info: 'Goalkeeper', photo: '/7.jpg' },
+  { name: 'Sriram Sai', info: 'Right Back', photo: '/7.jpg' },
+  { name: 'Henry', info: 'Left Back', photo: '/7.jpg' },
+  { name: 'Sanjit', info: 'Defensive Midfielder', photo: '/7.jpg'},
+  { name: 'Tiwari', info: 'Defensive Midfielder', photo: '/7.jpg' },
+  { name: 'Vihari', info: 'Attacking Midfielder', photo: '/7.jpg' },
+  { name: 'Trey', info: 'Right Winger', photo: '/7.jpg' },
+  { name: 'Lucas', info: 'Left Winger', photo: '/7.jpg' },
 ];
 
 function getGridPositions(count: number, rows: number, cols: number) {
