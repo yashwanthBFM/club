@@ -5,12 +5,12 @@
   position: relative;
   background-image: url('/info.jpg');
   background-size: cover;
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   gap: 4rem;
   padding: 4rem 2rem;
-  overflow: hidden;
-  z-index: 0; /* Ensure the blur stays behind the content */
+  z-index: 0;
 }
 
 .infoSection::before {
@@ -260,4 +260,39 @@
 
 .button:hover {
   background-color: #FF6D00;
+}
+
+/* Mobile parallax overrides */
+@media (max-width: 1024px), (hover: none) {
+  .infoSection,
+  .parallaxTeamSection {
+    background-attachment: scroll !important;
+    background-size: cover !important;
+    background-position: center 20% !important;
+    overflow: hidden !important;
+    /* Preserve background-image: url('/info.jpg') */
+  }
+}
+
+/* Additional touch device targeting */
+@supports ((-webkit-touch-callout: none) or (pointer: coarse)) {
+  .infoSection,
+  .parallaxTeamSection {
+    background-attachment: scroll !important;
+    background-size: cover !important;
+    background-position: center 20% !important;
+    overflow: hidden !important;
+    /* Preserve background-image: url('/info.jpg') */
+  }
+}
+
+/* Smaller mobile devices - adjusted positioning for parallax room */
+@media (max-width: 768px) {
+  .infoSection,
+  .parallaxTeamSection {
+    background-size: cover !important;
+    background-position: center 30% !important;
+    background-repeat: no-repeat !important;
+    /* Preserve background-image: url('/info.jpg') */
+  }
 }

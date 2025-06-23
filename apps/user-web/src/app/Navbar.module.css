@@ -110,6 +110,23 @@
 
   .hamburger {
     display: flex;
+    /* iOS-specific hamburger optimizations */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 44px;
+    min-width: 44px;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .links a {
+    /* iOS-specific link optimizations */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 
@@ -130,6 +147,28 @@
 
   .navbar {
     padding: 0.40rem 1rem; /* Reduce navbar height */
+  }
+  
+  .hamburger {
+    min-height: 40px;
+    min-width: 40px;
+  }
+}
+
+/* iOS-specific optimizations for very small screens */
+@media (max-width: 375px) {
+  .navbar {
+    padding: 0.3rem 0.8rem;
+  }
+  
+  .hamburger {
+    min-height: 36px;
+    min-width: 36px;
+  }
+  
+  .hamburger span {
+    width: 22px;
+    height: 2px;
   }
 }
 

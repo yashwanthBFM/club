@@ -22,7 +22,7 @@ export default function About() {
   }, []);
 
   return (
-    <section className={styles.aboutSection}>
+    <section className={styles.aboutSection} data-parallax="0.5" data-parallax-offset="0">
       <div className={styles.container} ref={sectionRef}>
         <div className={styles.imageContainer}>
           <img src="/11.jpg" alt="About Renegades FC" className={`${styles.image} ${animate ? styles.animate : ''}`} />

@@ -50,7 +50,18 @@ export default function HomePage() {
     loadGames();
     gsap.registerPlugin(SplitText);
 
+    // iPhone Safari optimization: Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     document.fonts.ready.then(() => {
+      // Skip animations if user prefers reduced motion
+      if (prefersReducedMotion) {
+        // Just show elements without animations
+        if (heroRef.current) heroRef.current.style.opacity = '1';
+        if (subtitleRef.current) subtitleRef.current.style.opacity = '1';
+        return;
+      }
+
       // Animate Hero Title
     if (heroRef.current) {
     gsap.set(heroRef.current, { opacity: 1 });
@@ -201,7 +212,7 @@ export default function HomePage() {
         <About />
       </section>
 
-      <section id="info" className={styles.aboutSection}>
+      <section id="info" className={styles.aboutSection} data-parallax="0.5" data-parallax-offset="0">
         <div className={styles.aboutContent}>
           <h2 className={styles.aboutTitle}>Why Choose Us?</h2>
           <div className={styles.whyUsFlex}>
@@ -279,7 +290,7 @@ export default function HomePage() {
       <ImageCarousel />
       </section>
 
-      <section id="join" className={styles.joinSection}>
+      <section id="join" className={styles.joinSection} data-parallax="0.5" data-parallax-offset="0">
         <h2 className={styles.joinTitle}>Ready to Join our team?</h2>
           <p className={styles.joinDescription}>
             Take the first step toward developing your skills and becoming part of our winning tradition.

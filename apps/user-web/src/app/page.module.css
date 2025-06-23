@@ -219,18 +219,14 @@
 
 /* About Section */
 .aboutSection {
-  min-height: 90vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/2.png');
+  background-color: #1a1a1a;
+  background-image: url('/2.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  color: white;
-  padding: 100px 20px;
+  padding: 80px 0;
+  color: #fff;
 }
 
 .aboutContent {
@@ -412,7 +408,6 @@
   justify-content: center;
   text-align: center;
   padding: 100px 20px;
-  
 }
 
 .joinSection::before {
@@ -684,3 +679,37 @@
   }
 }
 
+/* Mobile parallax overrides */
+@media (max-width: 1024px), (hover: none) {
+  .aboutSection,
+  .joinSection {
+    background-attachment: scroll !important;
+    background-size: cover !important;
+    background-position: center 20% !important;
+    overflow: hidden !important;
+    /* Preserve background images - don't override background-image */
+  }
+}
+
+/* Additional touch device targeting */
+@supports ((-webkit-touch-callout: none) or (pointer: coarse)) {
+  .aboutSection,
+  .joinSection {
+    background-attachment: scroll !important;
+    background-size: cover !important;
+    background-position: center 20% !important;
+    overflow: hidden !important;
+    /* Preserve background images - don't override background-image */
+  }
+}
+
+/* Smaller mobile devices - adjusted positioning for parallax room */
+@media (max-width: 768px) {
+  .aboutSection,
+  .joinSection {
+    background-size: cover !important;
+    background-position: center 30% !important;
+    background-repeat: no-repeat !important;
+    /* Preserve background images - don't override background-image */
+  }
+}
