@@ -32,14 +32,6 @@ const nextConfig = {
     NEXT_PUBLIC_AUTH_TOKEN_KEY: process.env.NEXT_PUBLIC_AUTH_TOKEN_KEY,
     NEXT_PUBLIC_ENABLE_ANALYTICS: process.env.NEXT_PUBLIC_ENABLE_ANALYTICS,
   },
-  // Production optimizations
-  compiler: {
-    removeConsole: process.env.NODE_ENV === 'production',
-  },
-  images: {
-    domains: ['yourdomain.com'], // Add your image domains here
-    unoptimized: false, // Image optimization is supported in Web Services
-  },
 };
 
 const plugins = [

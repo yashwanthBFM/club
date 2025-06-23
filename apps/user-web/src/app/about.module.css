@@ -161,3 +161,35 @@
     line-height: 1.5;
   }
 }
+
+/* Mobile parallax overrides */
+@media (max-width: 1024px), (hover: none) {
+  .aboutSection {
+    background-attachment: scroll !important;
+    background-size: cover !important;
+    background-position: center 20% !important;
+    overflow: hidden !important;
+    /* Preserve background-image: url('/about.jpg') */
+  }
+}
+
+/* Additional touch device targeting */
+@supports ((-webkit-touch-callout: none) or (pointer: coarse)) {
+  .aboutSection {
+    background-attachment: scroll !important;
+    background-size: cover !important;
+    background-position: center 20% !important;
+    overflow: hidden !important;
+    /* Preserve background-image: url('/about.jpg') */
+  }
+}
+
+/* Smaller mobile devices - adjusted positioning for parallax room */
+@media (max-width: 768px) {
+  .aboutSection {
+    background-size: cover !important;
+    background-position: center 30% !important;
+    background-repeat: no-repeat !important;
+    /* Preserve background-image: url('/about.jpg') */
+  }
+}

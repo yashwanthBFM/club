@@ -1,5 +1,8 @@
 import './global.css';
 import Navbar from './Navbar';
+import SimpleParallax from './components/SimpleParallax';
+import IOSOptimizer from './components/IOSOptimizer';
+import ParallaxDebug from './components/ParallaxDebug';
 
 export const metadata = {
   title: 'Welcome to user-web',
@@ -33,6 +36,9 @@ export default function RootLayout({
       </head>
       <body>
         <Navbar />
+        <SimpleParallax />
+        <IOSOptimizer />
+        <ParallaxDebug />
         {children}
       </body>
     </html>

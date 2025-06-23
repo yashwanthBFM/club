@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "cd apps/user-web && npx next build",
-    "start": "cd apps/user-web && npx next start",
-    "dev": "nx serve user-web"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",

@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function Info() {
   return (
-<section className={`${styles.infoSection} ${styles.parallaxTeamSection}`}>
+    <section className={`${styles.infoSection} ${styles.parallaxTeamSection}`} data-parallax="0.5" data-parallax-offset="0">
 
       <h1 className={styles.infoTitle}>Meet Our Team</h1>
       {/* First Block: Text Left, Image Right */}

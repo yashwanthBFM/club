@@ -11,6 +11,59 @@ html {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* iOS-specific scroll behavior optimization */
+@supports (-webkit-overflow-scrolling: touch) {
+  html {
+    scroll-behavior: auto; /* Disable smooth scroll on iOS for better performance */
+  }
+}
+
+/* Enhanced mobile parallax overrides */
+@media (max-width: 1024px), (hover: none) {
+  [data-parallax] {
+    background-attachment: scroll !important;
+    overflow: hidden !important;
+    position: relative !important;
+    /* Preserve background-image - don't override */
+  }
+  
+  /* Ensure all parallax sections have proper overflow */
+  .aboutSection,
+  .joinSection,
+  .infoSection,
+  .parallaxTeamSection {
+    background-attachment: scroll !important;
+    overflow: hidden !important;
+    position: relative !important;
+    /* Preserve background-image - don't override */
+  }
+  
+  /* Mobile parallax background elements */
+  .parallax-bg {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 120% !important;
+    z-index: -1 !important;
+    transform: translate3d(0, 0, 0) !important;
+    will-change: transform !important;
+    backface-visibility: hidden !important;
+    -webkit-backface-visibility: hidden !important;
+    -webkit-transform: translate3d(0, 0, 0) !important;
+  }
+}
+
+/* Additional touch device targeting */
+@supports ((-webkit-touch-callout: none) or (pointer: coarse)) {
+  [data-parallax] {
+    background-attachment: scroll !important;
+    overflow: hidden !important;
+    position: relative !important;
+    /* Preserve background-image - don't override */
+  }
+}
+
 /* iOS-specific optimizations */
 * {
   -webkit-tap-highlight-color: transparent;

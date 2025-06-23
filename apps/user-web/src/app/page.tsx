@@ -212,7 +212,7 @@ export default function HomePage() {
         <About />
       </section>
 
-      <section id="info" className={styles.aboutSection}>
+      <section id="info" className={styles.aboutSection} data-parallax="0.5" data-parallax-offset="0">
         <div className={styles.aboutContent}>
           <h2 className={styles.aboutTitle}>Why Choose Us?</h2>
           <div className={styles.whyUsFlex}>
@@ -290,7 +290,7 @@ export default function HomePage() {
       <ImageCarousel />
       </section>
 
-      <section id="join" className={styles.joinSection}>
+      <section id="join" className={styles.joinSection} data-parallax="0.5" data-parallax-offset="0">
         <h2 className={styles.joinTitle}>Ready to Join our team?</h2>
           <p className={styles.joinDescription}>
             Take the first step toward developing your skills and becoming part of our winning tradition.
