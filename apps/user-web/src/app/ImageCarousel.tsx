@@ -10,13 +10,14 @@ type Slide =
 export const slides: Slide[] = [
   {
     type: 'grid',
-    items: ['./home1.jpg', './home2.jpg', './home3.jpg', './home4.jpg']
+    items: ['./home1.jpg', './home2.jpg', './matches_3.jpg', './home4.jpg']
   },
 
 ];
 
 const ImageCarousel: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
 
   const handleNext = () => {
     setCurrentIndex((prev) =>
@@ -30,16 +31,18 @@ const ImageCarousel: React.FC = () => {
     );
   };
 
+  const openLightbox = (src: string) => {
+    setLightboxImage(src);
+  };
+
+  const closeLightbox = () => {
+    setLightboxImage(null);
+  };
+
   const currentSlide = slides[currentIndex] as Slide;
 
   return (
     <section className={styles.carouselSection}>
-      <div className={styles.galleryTitleBlock}>
-        <h2 className={styles.galleryHeading}>OUR CLUB IN MOTION</h2>
-        <p className={styles.gallerySubheading}>
-          Discover the spirit, sweat, and soul behind the Renegades journey.
-        </p>
-      </div>
       <div className={styles.carouselContent}>
         {/* Text Box on the Left */}
         <div className={styles.galleryInfoText}>
@@ -59,6 +62,7 @@ const ImageCarousel: React.FC = () => {
                   src={src}
                   alt={`Grid Image ${idx}`}
                   className={styles.gridImage}
+                  onClick={() => openLightbox(src)}
                 />
               ))}
             </div>
@@ -84,8 +88,15 @@ const ImageCarousel: React.FC = () => {
         
       </div>
       <Link href="/gallery" className={styles.galleryButton}>
-  Show full Gallery ➚
-</Link>
+        Show full Gallery ➚
+      </Link>
+
+      {lightboxImage && (
+        <div className={styles.lightbox} onClick={closeLightbox}>
+          <span className={styles.closeButton}>&times;</span>
+          <img src={lightboxImage} alt="Lightbox" className={styles.lightboxImage} />
+        </div>
+      )}
     </section>
     
   );

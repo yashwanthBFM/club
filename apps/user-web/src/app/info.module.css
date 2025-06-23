@@ -5,12 +5,12 @@
   position: relative;
   background-image: url('/info.jpg');
   background-size: cover;
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   gap: 4rem;
-  padding: 4rem 2rem;
-  overflow: hidden;
-  z-index: 0; /* Ensure the blur stays behind the content */
+  padding: 8rem 2rem;
+  z-index: 0;
 }
 
 .infoSection::before {
@@ -23,6 +23,11 @@
   backdrop-filter: blur(8px); /* Adjust the blur level */
   background-color: rgba(0, 0, 0, 0.3); /* Optional dark tint */
   z-index: -1;
+}
+
+.parallaxTeamSection > * {
+  position: relative;
+  z-index: 1;
 }
 
 .infoBlockGrid {
@@ -85,6 +90,14 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
+.infoBlock:hover {
+  transform: translateY(-6px) !important
+}
+
+.infoBlock:hover .coachImage {
+  transform: translateZ(-6px) scale(1.15) ;
+}
+
 .infoBlock2 {
   display: flex;
   flex-direction: column;
@@ -130,6 +143,8 @@
   border-radius: 50%;
   box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
 }
+
+
 
 .galleryButton {
   margin-top: 1.5rem;
@@ -224,31 +239,6 @@
   }
 }
 
-.parallaxTeamSection {
-  background-image: url('/info.jpg');
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  position: relative;
-  z-index: 0;
-}
-
-.parallaxTeamSection::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(20, 20, 30, 0.25); /* Less dark overlay */
-  z-index: 1;
-  pointer-events: none;
-}
-
-.parallaxTeamSection > * {
-  position: relative;
-  z-index: 2;
-}
 
 .button {
   background-color: #E85D04;
