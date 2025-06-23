@@ -97,12 +97,12 @@ const sectionContent: Record<SectionKey, {
   snaps: {
     title: "Club Memories",
     description: "Capturing the essence of our club culture - from team bonding moments to celebration snapshots that showcase our unity and passion.",
-    slides: slides3 // Using the original slides for this section
+    slides: slides3
   }
 };
 
 // Carousel component that can be reused
-const CarouselComponent = ({ slides, sectionKey }: { slides: Slide[]; sectionKey: SectionKey }) => {
+const CarouselComponent = ({ slides, sectionKey, onImageClick }: { slides: Slide[]; sectionKey: SectionKey; onImageClick: (src: string) => void; }) => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const handleNext = () => {
@@ -129,6 +129,7 @@ const CarouselComponent = ({ slides, sectionKey }: { slides: Slide[]; sectionKey
               src={src}
               alt={`${sectionKey} Image ${idx}`}
               className={styles.gridImage}
+              onClick={() => onImageClick(src)}
             />
           ))}
         </div>
@@ -147,13 +148,13 @@ const CarouselComponent = ({ slides, sectionKey }: { slides: Slide[]; sectionKey
         ↦
       </button>
       <div className={styles.dots}>
-        {slides.map((_, idx: number) => (
+        {slides.map((_, dotIndex: number) => (
           <span
-            key={idx}
+            key={dotIndex}
             className={`${styles.dot} ${
-              currentIndex === idx ? styles.active : ''
+              currentIndex === dotIndex ? styles.active : ''
             }`}
-            onClick={() => setCurrentIndex(idx)}
+            onClick={() => setCurrentIndex(dotIndex)}
           />
         ))}
       </div>
@@ -163,7 +164,16 @@ const CarouselComponent = ({ slides, sectionKey }: { slides: Slide[]; sectionKey
 
 const ImageCarousel = () => {
   const [activeSection, setActiveSection] = useState<number>(0);
+  const [lightboxImage, setLightboxImage] = useState<string | null>(null);
   const sliderRef = useRef<HTMLDivElement | null>(null);
+
+  const openLightbox = (src: string) => {
+    setLightboxImage(src);
+  };
+
+  const closeLightbox = () => {
+    setLightboxImage(null);
+  };
 
   const scrollToSection = (sectionIndex: number) => {
     setActiveSection(sectionIndex);
@@ -180,7 +190,7 @@ const ImageCarousel = () => {
   const sectionLabels = ['Matches', 'Training', 'Snaps'];
   return (
     <>
-      <Navbar2 />
+    <Navbar2/>
       <section className={styles.carouselSection}>
         {/* Navigation buttons */}
         <div className={styles.carouselButtons}>
@@ -199,9 +209,9 @@ const ImageCarousel = () => {
         {/* Horizontal Sliding Container */}
         <div className={styles.carouselSliderWrapper} ref={sliderRef}>
           {sections.map((sectionKey, index) => (
-            <section 
-              key={sectionKey} 
-              id={sectionKey} 
+            <section
+              key={sectionKey}
+              id={sectionKey}
               className={styles.carouselPanel}
             >
               <div className={styles.carouselContent}>
@@ -209,9 +219,10 @@ const ImageCarousel = () => {
                   <h3>{sectionContent[sectionKey].title}</h3>
                   <p>{sectionContent[sectionKey].description}</p>
                 </div>
-                <CarouselComponent 
-                  slides={sectionContent[sectionKey].slides} 
+                <CarouselComponent
+                  slides={sectionContent[sectionKey].slides}
                   sectionKey={sectionKey}
+                  onImageClick={openLightbox}
                 />
               </div>
             </section>
@@ -230,6 +241,13 @@ const ImageCarousel = () => {
           ))}
         </div>
       </section>
+
+      {lightboxImage && (
+        <div className={styles.lightbox} onClick={closeLightbox}>
+          <span className={styles.closeButton}>&times;</span>
+          <img src={lightboxImage} alt="Lightbox" className={styles.lightboxImage} />
+        </div>
+      )}
     </>
   );
 };

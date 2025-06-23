@@ -5,6 +5,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 /* Apply Anton font to all section headings */
 
+
+
 .eventsTitle,
 .featureTitle,
 .aboutTitle,
@@ -220,10 +222,11 @@
 /* About Section */
 .aboutSection {
   min-height: 90vh;
-  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/2.png');
+  background: url('/2.png');
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
+  overflow: hidden;
   position: relative;
   display: flex;
   align-items: center;
@@ -232,6 +235,8 @@
   color: white;
   padding: 100px 20px;
 }
+
+
 
 .aboutContent {
   max-width: 1200px;
@@ -646,41 +651,3 @@
 .whyUsCard:hover .whyUsIcon {
   transform: translateY(-4px) scale(1.15) rotate(-6deg);
 }
-
-.gallerySection {
-  width: 100%;
-  min-height: 100vh;
-  position: relative;
-  background:
-    linear-gradient(120deg, rgba(0,255,200,0.18) 0%, rgba(120,0,255,0.14) 100%),
-    radial-gradient(ellipse at top left, #232526 0%, #414345 100%);
-  background-color: #232526;
-  background-image:
-    linear-gradient(120deg, rgba(0,255,200,0.18) 0%, rgba(120,0,255,0.14) 100%),
-    repeating-linear-gradient(
-      45deg,
-      rgba(255,255,255,0.10) 0px,
-      rgba(255,255,255,0.10) 2px,
-      transparent 2px,
-      transparent 12px
-    );
-  background-blend-mode: overlay, lighten, normal;
-  box-shadow:
-    inset 0 40px 60px -30px rgba(0,0,0,0.25),
-    inset 0 -40px 60px -30px rgba(0,0,0,0.18);
-  animation: livelyGradient 18s ease-in-out infinite alternate;
-  background-size: 200% 200%, auto;
-}
-
-@keyframes livelyGradient {
-  0% {
-    background-position: 0% 50%, 0 0;
-  }
-  50% {
-    background-position: 100% 50%, 0 0;
-  }
-  100% {
-    background-position: 0% 50%, 0 0;
-  }
-}
-

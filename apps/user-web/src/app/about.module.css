@@ -2,14 +2,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 .aboutSection {
-  background-color: #3d4440;
   background-image: url('/about.jpg'); /* Add your image to public/ as soccer-field.jpg */
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
   position: relative;
-  padding: 2rem 1rem;
+  padding: 12rem 1rem;
   color: #ffffff;
+  overflow: hidden;
 }
 
 .aboutSection::before {
