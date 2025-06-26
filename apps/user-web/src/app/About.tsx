@@ -22,8 +22,8 @@ export default function About() {
   }, []);
 
   return (
-    <section className={styles.aboutSection}>
-      <div className={styles.container} ref={sectionRef}>
+    <section className={styles.aboutSection} ref={sectionRef}>
+      <div className={styles.container} >
         <div className={styles.imageContainer}>
           <img src="/11.jpg" alt="About Renegades FC" className={`${styles.image} ${animate ? styles.animate : ''}`} />
         </div>
