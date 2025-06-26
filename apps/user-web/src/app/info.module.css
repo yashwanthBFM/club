@@ -5,7 +5,7 @@
   position: relative;
   background-image: url('/info.jpg');
   background-size: cover;
-  background-attachment: scroll;
+  background-attachment: fixed;
   display: flex;
   flex-direction: column;
   gap: 4rem;
